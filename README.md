@@ -54,7 +54,6 @@ SQL Server · Power BI Desktop · Git · GitHub Actions · Pester · NSSM · Win
 | CompTIA Security+ | Earned — DoD 8570/8140 IAT Level II |
 | Google IT Support Certificate | Earned |
 | Google Data Analytics Certificate | Earned |
-| CLEP College Composition | Earned — 94% |
 | CompTIA CySA+ | In progress |
 
 ---
@@ -70,4 +69,4 @@ SQL Server · Power BI Desktop · Git · GitHub Actions · Pester · NSSM · Win
 ## Contact
 
 **Email:** mvahora2023@gmail.com
-**Location:** Exton, PA — open to remote roles
+**Location:** PA — open to remote roles
