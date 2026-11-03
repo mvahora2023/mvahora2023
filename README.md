@@ -1,72 +1,47 @@
 # Mahmadarsh Vahora
 
-![Security+](https://img.shields.io/badge/CompTIA-Security%2B-EA2226?logo=comptia&logoColor=white)
-![Google IT Support](https://img.shields.io/badge/Google-IT%20Support%20Cert-4285F4?logo=google&logoColor=white)
-![Google Data Analytics](https://img.shields.io/badge/Google-Data%20Analytics%20Cert-4285F4?logo=google&logoColor=white)
-![CySA+](https://img.shields.io/badge/CompTIA-CySA%2B%20In%20Progress-EA2226?logo=comptia&logoColor=white)
+**Computer Information Systems student | Software development · Automation · Data · AI tooling**
 
-![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![SQL Server](https://img.shields.io/badge/SQL%20Server-T--SQL-CC2927?logo=microsoftsqlserver&logoColor=white)
-![Power BI](https://img.shields.io/badge/Power%20BI-DAX-F2C811?logo=powerbi&logoColor=black)
-![MITRE ATT&CK](https://img.shields.io/badge/MITRE%20ATT%26CK-Enterprise-red)
-![Sigma](https://img.shields.io/badge/Sigma-Rules-orange)
+I build practical technical projects: Windows administration tools, interactive dashboards, database designs, integration helpers, and cybersecurity labs. My portfolio combines executable code with documented simulations. I'm interested in software engineering, technology startups, and opportunities to learn from teams building useful products.
 
-I build security tools, data analytics pipelines, and automation systems. My work spans detection engineering, security control development, business intelligence, and Windows systems administration — all project-driven.
+📍 Exton, Pennsylvania · [LinkedIn](https://www.linkedin.com/in/mahmadarshvahora/) · [Email](mailto:mvahora2023@gmail.com)
 
----
+## Featured projects
 
-## Projects
+| Project | What you can inspect |
+| --- | --- |
+| [SafeOps Toolkit](https://github.com/mvahora2023/safeops-toolkit) | PowerShell module for scoped Windows service administration, event-log queries, audit logging, Pester tests, and GitHub Actions |
+| [Compliance Gap Tracker v2](https://github.com/mvahora2023/compliance-gap-tracker-v2) | Browser-based, five-view compliance dashboard and Excel workbook using fictional data |
+| [Android MCP Windows Setup](https://github.com/mvahora2023/android-mcp-windows-setup) | PowerShell setup script and Python bridge to troubleshoot Android automation tooling on Windows |
+| [Data Analytics Portfolio](https://github.com/mvahora2023/data-analytics-portfolio) | SQL Server schemas, T-SQL queries, DAX measure definitions, and analysis documentation |
+| [PowerShell Automation](https://github.com/mvahora2023/powershell-automation) | File organization, inventory, security event review, and Windows administration scripts |
+| [Mini SOC Lab](https://github.com/mvahora2023/mini-soc-lab) | Synthetic incident cases with Sigma detection rules, triage reports, ATT&CK coverage, and response playbooks |
 
-### Security
+## Security and governance portfolio
 
-| Repo | What it is |
-|---|---|
-| [safeops-toolkit](https://github.com/mvahora2023/safeops-toolkit) | PowerShell security module — double-layer allowlist enforcement, structured audit logging, Pester 5 tests, GitHub Actions CI/CD |
-| [mini-soc-lab](https://github.com/mvahora2023/mini-soc-lab) | Detection engineering portfolio — Sigma rules for T1110 / T1566 / T1059.001, MITRE ATT&CK Navigator layer, triage reports, IR playbooks, threat intelligence report |
+These repositories use **fictional organizations, generated examples, or simulated environments** to demonstrate documentation and risk-analysis methods. They are **not assessments of actual companies or operational infrastructure**.
 
-### Analytics & Automation
+- [Enterprise GRC Program](https://github.com/mvahora2023/enterprise-grc-program): governance, audit workpapers, risk registers, and response program for a fictional company
+- [TSA Audit Readiness Checklist](https://github.com/mvahora2023/tsa-biennial-audit-readiness-checklist): checklist and evidence tracker for a fictional utility
+- [ICS/OT Risk Assessment Lab](https://github.com/mvahora2023/ics-ot-risk-assessment-lab): modeled industrial control network, simulated evidence, and risk reporting
+- [Utility Tabletop Exercise Program](https://github.com/mvahora2023/utility-tabletop-exercise-program): ransomware-response discussion scenario and exercise documents
+- [Architecture Design Review Template](https://github.com/mvahora2023/architecture-design-review-template): reusable security review template and worked example
 
-| Repo | What it is |
-|---|---|
-| [data-analytics-portfolio](https://github.com/mvahora2023/data-analytics-portfolio) | SQL schema design (9-table normalized enterprise DB), T-SQL query library, Power BI DAX measures, business case study analysis |
-| [powershell-automation](https://github.com/mvahora2023/powershell-automation) | Windows automation scripts — file governance, OneDrive auditing, incident response (failed login detection, IP blocking), compliance data inventory |
+## Technical areas
 
----
+**Development:** JavaScript / TypeScript, Python, PowerShell, SQL / T-SQL, HTML / CSS, Git and GitHub
 
-## Skills
+**Data and platforms:** SQL Server, PostgreSQL, Supabase, Power BI / DAX, Windows administration, GitHub Actions
 
-**Security**
-Detection engineering · MITRE ATT&CK · Sigma rules · Incident triage · Threat modeling · NIST CSF · Control documentation · GRC
+**Engineering practices:** troubleshooting, automated checks, technical documentation, practical automation, structured analysis
 
-**Development**
-Python (FastAPI, Pydantic, asyncio) · PowerShell 5.1 · T-SQL · DAX · YAML
+## Education and credentials
 
-**Tools**
-SQL Server · Power BI Desktop · Git · GitHub Actions · Pester · NSSM · Windows Event Log
+- **Community College of Allegheny County (CCAC):** Associate in Science, Computer Information Systems, in progress
+- **Completed:** Google IT Support Professional Certificate; Google Data Analytics Professional Certificate
 
----
-
-## Certifications
-
-| Certification | Status |
-|---|---|
-| CompTIA Security+ | Earned — DoD 8570/8140 IAT Level II |
-| Google IT Support Certificate | Earned |
-| Google Data Analytics Certificate | Earned |
-| CompTIA CySA+ | In progress |
-
----
-
-## Currently Building Toward
-
-- CySA+ certification
-- Expanding Mini SOC Lab with additional detection use cases
-- SIEM hands-on experience (Splunk BOTS, Microsoft Sentinel)
-
----
+*Project descriptions reflect repository contents. Sample data, mocked scenarios, and untested integrations are identified in their respective READMEs. This portfolio does not imply production deployment or employer work.*
 
 ## Contact
 
-**Email:** mvahora2023@gmail.com
-**Location:** PA — open to remote roles
+[LinkedIn](https://www.linkedin.com/in/mahmadarshvahora/) · [GitHub](https://github.com/mvahora2023) · [Email](mailto:mvahora2023@gmail.com)
