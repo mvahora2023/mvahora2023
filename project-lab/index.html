@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Project Lab | Mahmadarsh Vahora</title><meta name="description" content="Public technical portfolio and independent interactive project dashboards"><style>
+:root{color-scheme:dark;--bg:#07111e;--p:#111d2d;--t:#edf5fd;--m:#abbcce;--line:#29394b;--a:#6dd9c5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 system-ui,Segoe UI,Arial,sans-serif}
+a{color:inherit}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--a);outline-offset:3px}
+nav{border-bottom:1px solid var(--line);padding:22px max(24px,calc((100vw - 1240px)/2));display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}
+nav b{letter-spacing:.07em}nav a{font-size:.87rem;color:var(--m)}
+main{max-width:1240px;margin:auto;padding:50px 24px}
+.kicker{color:var(--a);letter-spacing:.18em;text-transform:uppercase;font-weight:800;font-size:.78rem}
+h1{font-size:clamp(2.6rem,6.5vw,5rem);line-height:1.04;letter-spacing:-.065em;margin:16px 0}
+.lead{font-size:1.1rem;color:var(--m);max-width:790px}
+.counters{display:flex;gap:30px;flex-wrap:wrap;margin:30px 0 42px}
+.counter b{display:block;font-size:2.1rem}.counter span{color:var(--m);font-size:.81rem;text-transform:uppercase;letter-spacing:.08em}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 17px}.toolbar input,.toolbar select{background:var(--p);border:1px solid var(--line);padding:11px 13px;border-radius:9px;color:var(--t);font:inherit}
+.toolbar input{flex:1 1 270px}h2{letter-spacing:-.025em;font-size:1.4rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:15px}
+.card{padding:21px;border:1px solid var(--line);border-radius:14px;background:var(--p);display:flex;flex-direction:column;min-height:260px}
+.card .label{font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--a);font-weight:750}
+.card h3{margin:11px 0 8px;font-size:1.18rem}
+.card p{font-size:.9rem;color:var(--m);line-height:1.5;flex:1;margin:0 0 22px}
+.links{display:flex;gap:17px;flex-wrap:wrap}.links a{font-size:.86rem;font-weight:730;color:var(--a)}
+.note{color:var(--m);font-size:.83rem;background:var(--p);border:1px solid var(--line);border-radius:11px;padding:17px 19px;margin-top:26px}
+footer{max-width:1240px;padding:0 24px 30px;margin:auto;color:var(--m);font-size:.82rem}
+@media(max-width:660px){main{padding:35px 14px}nav{padding:15px}.counters{gap:17px}}
+</style></head><body><nav><b>MAHMADARSH VAHORA / PROJECT LAB</b><a href="https://github.com/mvahora2023" rel="noopener noreferrer">GitHub portfolio ↗</a></nav><main><div class="kicker">Independent technical portfolio</div><h1>Projects that you can <span style="color:var(--a)">actually explore.</span></h1><p class="lead">An interactive gallery of public engineering, data, automation, and cybersecurity portfolio work. Every view links back to its source, and sample or simulated data are identified clearly.</p><div class="counters"><div class="counter"><b>11</b><span>Public technical projects</span></div><div class="counter"><b>10</b><span>New project explorers</span></div><div class="counter"><b>1</b><span>Expanded compliance dashboard</span></div></div>
+<div class="toolbar"><input id="search" type="search" placeholder="Search projects and topics…" aria-label="Search projects"><select id="type" aria-label="Filter by field"><option value="">All fields</option></select><span id="count" role="status" aria-live="polite"></span></div>
+<div class="grid" id="projects"></div><aside class="note"><strong>What these dashboards mean:</strong> Most are offline-ready portfolio explorers for example logs, schemas, fictional risk records, checklists, and scripts. They are not connected to real systems. The Compliance Gap Tracker is a separate interactive sample analytics application. Private repositories and projects that may contain sensitive material are not published here. Source snapshots require manual redeployment when they change.</aside>
+</main><footer>Developed by Mahmadarsh Vahora · Public demo artifacts only · November 2026</footer>
+<script>
+'use strict';
+const items=[{"title":"Compliance Gap Tracker v2","slug":"compliance-gap-tracker-v2","field":"Interactive compliance analytics","kind":"Full dashboard","detail":"Five views, filters, calculated sample metrics and CSV export."},{"title":"SafeOps Toolkit","slug":"safeops-toolkit","field":"Windows administration","kind":"Log explorer","detail":"Sample Windows event logs, providers and event filters."},{"title":"Mini SOC Lab","slug":"mini-soc-lab","field":"Security monitoring","kind":"Detection explorer","detail":"Synthetic alerts and MITRE ATT&CK mapping examples."},{"title":"Data Analytics Portfolio","slug":"data-analytics-portfolio","field":"Data and SQL","kind":"Schema explorer","detail":"Eight SQL Server tables and analysis query catalog."},{"title":"PowerShell Automation","slug":"powershell-automation","field":"Windows automation","kind":"Script catalog","detail":"Safety labels, source links and script-purpose explorer."},{"title":"Android MCP Windows Setup","slug":"android-mcp-windows-setup","field":"AI integrations","kind":"Setup checklist","detail":"Portable Windows and Android integration walkthrough."},{"title":"Enterprise GRC Program","slug":"enterprise-grc-program","field":"Governance and risk","kind":"Risk register","detail":"Synthetic risk register by category, score and ownership."},{"title":"TSA Audit Readiness","slug":"tsa-biennial-audit-readiness-checklist","field":"Audit planning","kind":"Evidence checklist","detail":"Historical evidence-planning checklist with local review marks."},{"title":"ICS / OT Risk Assessment","slug":"ics-ot-risk-assessment-lab","field":"Industrial cybersecurity","kind":"Asset inventory","detail":"Simulated control-system assets by zone and criticality."},{"title":"Operation Lockout Exercise","slug":"utility-tabletop-exercise-program","field":"Incident preparation","kind":"Exercise timeline","detail":"Fifteen fictional ransomware tabletop injects."},{"title":"Architecture Design Review","slug":"architecture-design-review-template","field":"Design and security","kind":"Review checklist","detail":"Fifty architecture-review questions and source references."}];
+const root=document.getElementById('projects');
+const q=document.getElementById('search'),type=document.getElementById('type'),count=document.getElementById('count');
+for(const g of [...new Set(items.map(x=>x.field))].sort()){const o=document.createElement('option');o.value=g;o.textContent=g;type.append(o)}
+function render(){
+ const search=q.value.toLowerCase().trim(),category=type.value;root.replaceChildren();
+ const rows=items.filter(x=>(!category||x.field===category)&&(!search||[x.title,x.field,x.detail,x.kind].join(' ').toLowerCase().includes(search)));
+ for(const x of rows){
+  const c=document.createElement('article');c.className='card';
+  const label=document.createElement('span');label.className='label';label.textContent=x.field+' / '+x.kind;
+  const h=document.createElement('h3');h.textContent=x.title;
+  const p=document.createElement('p');p.textContent=x.detail;
+  const links=document.createElement('div');links.className='links';
+  const a=document.createElement('a');a.href=x.slug==='compliance-gap-tracker-v2'?'https://compliance-gap-tracker-v2.vercel.app/':'/'+x.slug+'/index.html';a.textContent='Open interactive view ↗';
+  const b=document.createElement('a');b.href='https://github.com/mvahora2023/'+x.slug;b.target='_blank';b.rel='noopener noreferrer';b.textContent='Source ↗';
+  links.append(a,b);c.append(label,h,p,links);root.append(c);
+ }
+ count.textContent=rows.length+' shown';
+}
+q.addEventListener('input',render);type.addEventListener('input',render);render();
+</script></body></html>
