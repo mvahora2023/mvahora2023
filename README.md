@@ -6,6 +6,10 @@ I build practical technical projects: Windows administration tools, interactive 
 
 📍 Exton, Pennsylvania · [LinkedIn](https://www.linkedin.com/in/mahmadarshvahora/) · [Email](mailto:mvahora2023@gmail.com)
 
+## Try my interactive project dashboards
+
+**[Open the public Project Lab](https://arsh-project-lab.vercel.app/)** to explore 11 technical projects. It includes an interactive Compliance Gap Tracker, sample log viewers, risk and asset inventories, source-linked SQL examples, and offline-ready checklists. All simulated data is labeled; the Project Lab does not connect to private or production systems.
+
 ## Featured projects
 
 | Project | What you can inspect |
