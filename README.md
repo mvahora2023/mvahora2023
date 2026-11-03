@@ -11,7 +11,7 @@ I build practical technical projects: Windows administration tools, interactive 
 | Project | What you can inspect |
 | --- | --- |
 | [SafeOps Toolkit](https://github.com/mvahora2023/safeops-toolkit) | PowerShell module for scoped Windows service administration, event-log queries, audit logging, Pester tests, and GitHub Actions |
-| [Compliance Gap Tracker v2](https://github.com/mvahora2023/compliance-gap-tracker-v2) | Browser-based, five-view compliance dashboard and Excel workbook using fictional data |
+| [Compliance Gap Tracker v2](https://github.com/mvahora2023/compliance-gap-tracker-v2) ([Live demo](https://compliance-gap-tracker-v2.vercel.app/)) | Interactive compliance dashboard with five reporting views, search, CSV export and synthetic example data |
 | [Android MCP Windows Setup](https://github.com/mvahora2023/android-mcp-windows-setup) | PowerShell setup script and Python bridge to troubleshoot Android automation tooling on Windows |
 | [Data Analytics Portfolio](https://github.com/mvahora2023/data-analytics-portfolio) | SQL Server schemas, T-SQL queries, DAX measure definitions, and analysis documentation |
 | [PowerShell Automation](https://github.com/mvahora2023/powershell-automation) | File organization, inventory, security event review, and Windows administration scripts |
