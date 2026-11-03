@@ -1,50 +1,55 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Project Lab | Mahmadarsh Vahora</title><meta name="description" content="Public technical portfolio and independent interactive project dashboards"><style>
-:root{color-scheme:dark;--bg:#07111e;--p:#111d2d;--t:#edf5fd;--m:#abbcce;--line:#29394b;--a:#6dd9c5}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 system-ui,Segoe UI,Arial,sans-serif}
-a{color:inherit}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--a);outline-offset:3px}
-nav{border-bottom:1px solid var(--line);padding:22px max(24px,calc((100vw - 1240px)/2));display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}
-nav b{letter-spacing:.07em}nav a{font-size:.87rem;color:var(--m)}
-main{max-width:1240px;margin:auto;padding:50px 24px}
-.kicker{color:var(--a);letter-spacing:.18em;text-transform:uppercase;font-weight:800;font-size:.78rem}
-h1{font-size:clamp(2.6rem,6.5vw,5rem);line-height:1.04;letter-spacing:-.065em;margin:16px 0}
-.lead{font-size:1.1rem;color:var(--m);max-width:790px}
-.counters{display:flex;gap:30px;flex-wrap:wrap;margin:30px 0 42px}
-.counter b{display:block;font-size:2.1rem}.counter span{color:var(--m);font-size:.81rem;text-transform:uppercase;letter-spacing:.08em}
-.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 17px}.toolbar input,.toolbar select{background:var(--p);border:1px solid var(--line);padding:11px 13px;border-radius:9px;color:var(--t);font:inherit}
-.toolbar input{flex:1 1 270px}h2{letter-spacing:-.025em;font-size:1.4rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:15px}
-.card{padding:21px;border:1px solid var(--line);border-radius:14px;background:var(--p);display:flex;flex-direction:column;min-height:260px}
-.card .label{font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--a);font-weight:750}
-.card h3{margin:11px 0 8px;font-size:1.18rem}
-.card p{font-size:.9rem;color:var(--m);line-height:1.5;flex:1;margin:0 0 22px}
-.links{display:flex;gap:17px;flex-wrap:wrap}.links a{font-size:.86rem;font-weight:730;color:var(--a)}
-.note{color:var(--m);font-size:.83rem;background:var(--p);border:1px solid var(--line);border-radius:11px;padding:17px 19px;margin-top:26px}
-footer{max-width:1240px;padding:0 24px 30px;margin:auto;color:var(--m);font-size:.82rem}
-@media(max-width:660px){main{padding:35px 14px}nav{padding:15px}.counters{gap:17px}}
-</style></head><body><nav><b>MAHMADARSH VAHORA / PROJECT LAB</b><a href="https://github.com/mvahora2023" rel="noopener noreferrer">GitHub portfolio ↗</a></nav><main><div class="kicker">Independent technical portfolio</div><h1>Projects that you can <span style="color:var(--a)">actually explore.</span></h1><p class="lead">An interactive gallery of public engineering, data, automation, and cybersecurity portfolio work. Every view links back to its source, and sample or simulated data are identified clearly.</p><div class="counters"><div class="counter"><b>11</b><span>Public technical projects</span></div><div class="counter"><b>10</b><span>New project explorers</span></div><div class="counter"><b>1</b><span>Expanded compliance dashboard</span></div></div>
-<div class="toolbar"><input id="search" type="search" placeholder="Search projects and topics…" aria-label="Search projects"><select id="type" aria-label="Filter by field"><option value="">All fields</option></select><span id="count" role="status" aria-live="polite"></span></div>
-<div class="grid" id="projects"></div><aside class="note"><strong>What these dashboards mean:</strong> Most are offline-ready portfolio explorers for example logs, schemas, fictional risk records, checklists, and scripts. They are not connected to real systems. The Compliance Gap Tracker is a separate interactive sample analytics application. Private repositories and projects that may contain sensitive material are not published here. Source snapshots require manual redeployment when they change.</aside>
-</main><footer>Developed by Mahmadarsh Vahora · Public demo artifacts only · November 2026</footer>
-<script>
-'use strict';
-const items=[{"title":"Compliance Gap Tracker v2","slug":"compliance-gap-tracker-v2","field":"Interactive compliance analytics","kind":"Full dashboard","detail":"Five views, filters, calculated sample metrics and CSV export."},{"title":"SafeOps Toolkit","slug":"safeops-toolkit","field":"Windows administration","kind":"Log explorer","detail":"Sample Windows event logs, provider filters, and private local JSON report import."},{"title":"Mini SOC Lab","slug":"mini-soc-lab","field":"Security monitoring","kind":"Detection explorer","detail":"Synthetic alerts, ATT&CK mappings, and reproduced failed-logon burst leads."},{"title":"Data Analytics Portfolio","slug":"data-analytics-portfolio","field":"Data and SQL","kind":"Schema explorer","detail":"Eight SQL Server tables, analysis queries, and recalculated sample order metrics."},{"title":"PowerShell Automation","slug":"powershell-automation","field":"Windows automation","kind":"Script catalog","detail":"Safety labels, source links and script-purpose explorer."},{"title":"Android MCP Windows Setup","slug":"android-mcp-windows-setup","field":"AI integrations","kind":"Setup checklist","detail":"Portable Windows and Android integration walkthrough."},{"title":"Enterprise GRC Program","slug":"enterprise-grc-program","field":"Governance and risk","kind":"Risk register","detail":"Synthetic risk register by category, score and ownership."},{"title":"TSA Audit Readiness","slug":"tsa-biennial-audit-readiness-checklist","field":"Audit planning","kind":"Evidence checklist","detail":"Historical evidence-planning checklist with local review marks."},{"title":"ICS / OT Risk Assessment","slug":"ics-ot-risk-assessment-lab","field":"Industrial cybersecurity","kind":"Asset inventory","detail":"Simulated control-system assets by zone and criticality."},{"title":"Operation Lockout Exercise","slug":"utility-tabletop-exercise-program","field":"Incident preparation","kind":"Exercise timeline","detail":"Fifteen fictional ransomware tabletop injects."},{"title":"Architecture Design Review","slug":"architecture-design-review-template","field":"Design and security","kind":"Review checklist","detail":"Fifty architecture-review questions and source references."}];
-const root=document.getElementById('projects');
-const q=document.getElementById('search'),type=document.getElementById('type'),count=document.getElementById('count');
-for(const g of [...new Set(items.map(x=>x.field))].sort()){const o=document.createElement('option');o.value=g;o.textContent=g;type.append(o)}
-function render(){
- const search=q.value.toLowerCase().trim(),category=type.value;root.replaceChildren();
- const rows=items.filter(x=>(!category||x.field===category)&&(!search||[x.title,x.field,x.detail,x.kind].join(' ').toLowerCase().includes(search)));
- for(const x of rows){
-  const c=document.createElement('article');c.className='card';
-  const label=document.createElement('span');label.className='label';label.textContent=x.field+' / '+x.kind;
-  const h=document.createElement('h3');h.textContent=x.title;
-  const p=document.createElement('p');p.textContent=x.detail;
-  const links=document.createElement('div');links.className='links';
-  const a=document.createElement('a');a.href=x.slug==='compliance-gap-tracker-v2'?'https://compliance-gap-tracker-v2.vercel.app/':'/'+x.slug+'/index.html';a.textContent='Open interactive view ↗';
-  const b=document.createElement('a');b.href='https://github.com/mvahora2023/'+x.slug;b.target='_blank';b.rel='noopener noreferrer';b.textContent='Source ↗';
-  links.append(a,b);c.append(label,h,p,links);root.append(c);
- }
- count.textContent=rows.length+' shown';
-}
-q.addEventListener('input',render);type.addEventListener('input',render);render();
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111e">
+  <meta name="description" content="Project Lab is an independent space for new software products, prototypes, and experiments by Mahmadarsh Vahora.">
+  <title>Project Lab | Mahmadarsh Vahora</title>
+  <style>
+    :root {color-scheme: dark; --bg:#07111e; --panel:#101e2c; --line:#2b4050; --ink:#f0f7ff; --muted:#aabccd; --accent:#70dfc9;}
+    * {box-sizing:border-box}
+    body {margin:0;min-height:100vh;background:radial-gradient(ellipse 55% 55% at 90% 15%,#103b46 0%,transparent 70%),var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;}
+    a {color:inherit;}
+    a:focus-visible {outline:3px solid var(--accent);outline-offset:4px}
+    .wrap {max-width:1100px;margin:auto;padding:0 24px}
+    header {border-bottom:1px solid var(--line)}
+    header .wrap {display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:75px}
+    .brand {font-weight:800;letter-spacing:.09em;font-size:.84rem}
+    .byline {font-size:.8rem;color:var(--muted)}
+    main {padding:clamp(68px,12vw,155px) 0 85px}
+    .eyebrow {font-size:.78rem;color:var(--accent);letter-spacing:.2em;font-weight:800;text-transform:uppercase}
+    h1 {font-size:clamp(3.5rem,8.5vw,7rem);line-height:1.04;letter-spacing:-.075em;font-weight:780;max-width:950px;margin:20px 0 30px}
+    h1 span {color:var(--accent)}
+    .lead {max-width:690px;color:var(--muted);font-size:clamp(1.05rem,1.6vw,1.21rem);margin-bottom:55px}
+    .divider {border-top:1px solid var(--line);margin:46px 0 35px}
+    .section-head {font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+    .pillars {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .pillar {background:rgba(16,30,44,.7);border:1px solid var(--line);border-radius:15px;padding:24px 25px;min-height:165px}
+    .pillar h2 {font-size:1.15rem;margin:0 0 8px;letter-spacing:-.03em}
+    .pillar p {color:var(--muted);font-size:.9rem;margin:0}
+    .note {max-width:730px;margin:42px 0 0;color:var(--muted);font-size:.89rem}
+    footer {border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:.81rem}
+    @media(max-width:720px){.wrap{padding:0 17px}header .wrap{min-height:65px}.byline{font-size:.73rem}main{padding:60px 0 65px}.pillars{grid-template-columns:1fr}.pillar{min-height:auto}h1{font-size:clamp(2.9rem,12vw,5rem)}}
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><span class="brand">PROJECT LAB</span><span class="byline">MAHMADARSH VAHORA</span></div></header>
+  <main class="wrap">
+    <div class="eyebrow">Independent product experiments</div>
+    <h1>Build the idea.<br><span>Earn the proof.</span></h1>
+    <p class="lead">Project Lab is a space for original applications, working prototypes, and technical experiments. Its purpose is to show what a product can do, not serve as a directory of public code repositories.</p>
+    <div class="divider"></div>
+    <section aria-labelledby="approach-title">
+      <div class="section-head" id="approach-title">The approach</div>
+      <div class="pillars">
+        <article class="pillar"><h2>Explore</h2><p>Start with a problem, a question, or an unexplored possibility.</p></article>
+        <article class="pillar"><h2>Build</h2><p>Turn an idea into something interactive and technically substantial.</p></article>
+        <article class="pillar"><h2>Validate</h2><p>Test the experience, improve what matters, and share only what is ready.</p></article>
+      </div>
+    </section>
+    <p class="note">The project lineup is being refined. Individual applications and demonstrations will be featured here as their scope, testing, and presentation are ready.</p>
+  </main>
+  <footer><div class="wrap">Project Lab · Independent development · 2026</div></footer>
+</body>
+</html>
