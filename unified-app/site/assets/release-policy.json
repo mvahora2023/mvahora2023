@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "application": "Project Lab Unified",
+  "deployedFrom": "unified-app/site",
+  "copyPolicy": "read-only SHA-256 verified module browser interfaces",
+  "sourceRepositories": 12,
+  "localData": false,
+  "privateRepositories": false,
+  "sourceOfTruth": "independent public GitHub repositories",
+  "releaseManifest": "/release.json",
+  "verification": "Inspect GitHub Actions and Vercel deployment status for automatic updates."
+}
