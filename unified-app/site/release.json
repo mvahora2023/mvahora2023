@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "application": "Project Lab Unified",
-  "generatedAt": "2026-11-04T13:14:40.500Z",
+  "generatedAt": "2026-11-04T14:07:25.351Z",
   "sourceCount": 12,
   "dataPolicy": "synthetic and verified public reference only; local device and private account data disabled",
   "isolation": "opaque-origin sandboxed iframes; no cross-module writeback",
@@ -9,10 +9,10 @@
   "modules": [
     {
       "id": "compliance-gap-tracker-v2",
-      "title": "Compliance Gap Tracker",
+      "title": "Compliance Gap Tracker v2",
       "group": "Governance & Resilience",
       "role": "Flagship · compliance management",
-      "summary": "Detailed compliance review and trend demonstration",
+      "summary": "Current v2 synthetic compliance dashboard; v3 workflow upgrade is planned, not implemented",
       "originalUrl": "https://github.com/mvahora2023/compliance-gap-tracker-v2",
       "sourcePath": "dashboard/index.html",
       "branch": "master",
@@ -221,7 +221,7 @@
       "title": "Portfolio Index",
       "group": "Portfolio",
       "role": "Portfolio source index",
-      "summary": "Original public portfolio index, not an executable application",
+      "summary": "Public portfolio source retained for audit and sync only; excluded from Unified project gallery",
       "originalUrl": "https://github.com/mvahora2023/mvahora2023",
       "sourcePath": "project-lab/index.html",
       "branch": "master",
