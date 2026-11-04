@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {Script} from 'node:vm';
+import {adaptUnifiedCopy,EMBED_MESSAGE_TYPE} from '../scripts/embedded-shell.mjs';
 const dir=new URL('../',import.meta.url);
 const read=p=>readFileSync(new URL(p,dir),'utf8');
 const sources=JSON.parse(read('manifest/sources.json'));
@@ -41,10 +42,35 @@ test('website has no parent-scope module script execution or local-data inputs',
  assert.doesNotMatch(home,/<input[^>]+type=["']file/i);
  assert.match(app,/allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox/);
  assert.doesNotMatch(app,/allow-same-origin/);
- assert.doesNotMatch(app,/window\.postMessage|addEventListener\(['"]message/);
+ assert.match(app,/event\.source!==activeFrame\.contentWindow/);
+ assert.match(app,/event\.origin!=='null'/);
+ assert.match(app,/msg\.session!==frameSession/);
+ assert.match(app,/msg\.project!==activeId/);
+ assert.doesNotMatch(app,/allow-same-origin/);
  assert.match(app,/crypto\.subtle\.digest/);
  assert.doesNotThrow(()=>new Script(app));
 });
+
+test('embedded adapter makes a separate compact copy while leaving originals unchanged',()=>{
+ const original='<!doctype html><html><head><title>Example</title></head><body><header class="topbar">Original</header><main>Content</main></body></html>';
+ const m={id:'mini-soc-lab',kind:'static-web-copy'};
+ const compact=adaptUnifiedCopy(original,m);
+ assert.notEqual(compact,original);
+ assert.doesNotMatch(original,/data-unified-shell-adapter/);
+ assert.match(compact,/data-unified-shell-adapter="1"/);
+ assert.match(compact,/\.topbar/);
+ assert.match(compact,/document\.documentElement\.setAttribute\('data-unified-embed', '1'\)/);
+ assert.match(compact,/window\.parent === window/);
+ assert.match(compact,/ResizeObserver/);
+ assert.match(compact,/postMessage/);
+ assert.match(compact,/project-lab-unified:height:v1/);
+ const injected=[...compact.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)];
+ assert.equal(injected.length,1);
+ assert.doesNotThrow(()=>new Script(injected[0][1]));
+ assert.equal(adaptUnifiedCopy(original,{id:'mvahora2023',kind:'portfolio-index'}),original);
+ assert.equal(EMBED_MESSAGE_TYPE,'project-lab-unified:height:v1');
+});
+
 const releasePath=new URL('site/release.json',dir);
 if(existsSync(releasePath)){
  const release=JSON.parse(read('site/release.json'));
