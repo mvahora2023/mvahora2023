@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "application": "Project Lab Unified",
-  "generatedAt": "2026-11-04T14:07:25.351Z",
+  "generatedAt": "2026-11-04T14:19:31.387Z",
   "sourceCount": 12,
   "dataPolicy": "synthetic and verified public reference only; local device and private account data disabled",
   "isolation": "opaque-origin sandboxed iframes; no cross-module writeback",
@@ -17,8 +17,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "master",
       "sourceRevision": "53d0b0d7b8a2434227931a580f403bade1ae89cc",
-      "sha256": "263e5db759d5da4be84f209ec464a9077867c59015f98922d23c5b860acf59b4",
+      "sourceSha256": "263e5db759d5da4be84f209ec464a9077867c59015f98922d23c5b860acf59b4",
+      "sha256": "4ad8370fac097fb1eaaf53be7560357203579e20e15155eee424ae6365ce6fbf",
       "copyPath": "modules/compliance-gap-tracker-v2/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -36,8 +38,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "main",
       "sourceRevision": "a11f3af49e5ae660df303c4ee091c75d58147df4",
-      "sha256": "6ae8673d8e67ce2ea98e4ef473ad282cf22110ccc0acaffe8cb9a1136cd71458",
+      "sourceSha256": "6ae8673d8e67ce2ea98e4ef473ad282cf22110ccc0acaffe8cb9a1136cd71458",
+      "sha256": "76d911667536589934cd18fcbf91ce6b1183b6e3c559d8477c3445c3ab6fd84e",
       "copyPath": "modules/enterprise-grc-program/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -55,8 +59,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "master",
       "sourceRevision": "7eea2f6c57263907303040f2f9e6cb9dc208300d",
-      "sha256": "4fd292b329c1f4e05640e1db0381a950094c3f3f05d728a938e6b271526e37cf",
+      "sourceSha256": "4fd292b329c1f4e05640e1db0381a950094c3f3f05d728a938e6b271526e37cf",
+      "sha256": "5d268aff65439d18c30365927ab22478d4c70a577313cb6f4936c0365a8ced29",
       "copyPath": "modules/tsa-biennial-audit-readiness-checklist/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -74,8 +80,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "master",
       "sourceRevision": "de6b90aaf71dfde86b4fe0c2a7c3a82d4f01dc3e",
-      "sha256": "12f4b2fddd894dcc9e76f15eeb025f353b312cab0b8349a74e7f9c4096a59c66",
+      "sourceSha256": "12f4b2fddd894dcc9e76f15eeb025f353b312cab0b8349a74e7f9c4096a59c66",
+      "sha256": "eb4337c22e10a3d5f7eac5ce77df9f426910ceda4b9da40e378abc9b0dcc2eca",
       "copyPath": "modules/utility-tabletop-exercise-program/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -93,8 +101,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "master",
       "sourceRevision": "4b53f1a27c7ddeb1c90720fcbdf64f85aebe15be",
-      "sha256": "18a544503de72cafdde61bb557f824a6dc56c5544d696e910c216e5e8d8cf1a1",
+      "sourceSha256": "18a544503de72cafdde61bb557f824a6dc56c5544d696e910c216e5e8d8cf1a1",
+      "sha256": "42d83917ef30da83fdc0e7e8091768ba7ddf1cebd3e24139d007fc79734e5616",
       "copyPath": "modules/architecture-design-review-template/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -112,8 +122,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "main",
       "sourceRevision": "bf5e419014cb9999981469bd664d482e6dcfca48",
-      "sha256": "73e530c93fe1f54dc09f8c904b91a4f221313ae3f3f812e629b6844c628d93e0",
+      "sourceSha256": "73e530c93fe1f54dc09f8c904b91a4f221313ae3f3f812e629b6844c628d93e0",
+      "sha256": "a708d94c00eaa847d33540f42c2d80215396220cc1d92d222ba9bcdd83703cd5",
       "copyPath": "modules/mini-soc-lab/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -131,8 +143,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "master",
       "sourceRevision": "52d720ea1f8f385c7614b127e25ef1810aa27ff3",
-      "sha256": "bfb0540ac28130ddc076ef56d4db1af8148904c181f7229518ce4e0311a74351",
+      "sourceSha256": "bfb0540ac28130ddc076ef56d4db1af8148904c181f7229518ce4e0311a74351",
+      "sha256": "080eae8beebf7523fa4874ec1e1bfb51b7d03bc5a56cbf6387baecfb7490221a",
       "copyPath": "modules/ics-ot-risk-assessment-lab/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -150,8 +164,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "main",
       "sourceRevision": "9a228d6820921f8e9d520f072b962528b68304cf",
-      "sha256": "dab92f6a739f72acad79899642cfbc973db2055ee6c7af236ac02272b2728fa4",
+      "sourceSha256": "dab92f6a739f72acad79899642cfbc973db2055ee6c7af236ac02272b2728fa4",
+      "sha256": "a2277598b23399557dd75dfd3c8eff7c7f27c498e2fcc5c4b6508b089e4b77e2",
       "copyPath": "modules/safeops-toolkit/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -169,8 +185,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "master",
       "sourceRevision": "a6afc3f2ac36a86fc1bb9635d08ac693128de700",
-      "sha256": "b7e215efaf1270bc587b0bf8e77495732d6d87cb5498b29029535fde9a466c74",
+      "sourceSha256": "b7e215efaf1270bc587b0bf8e77495732d6d87cb5498b29029535fde9a466c74",
+      "sha256": "309ead61c57eecb2b1e4f53044080ee3895fa4e192863444099e23a26edbb6cb",
       "copyPath": "modules/powershell-automation/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -188,8 +206,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "master",
       "sourceRevision": "bb380d7de5a9aaf9e7c33ec50e81b1fdf98b36e6",
-      "sha256": "7d6e4dca3f45f032456c2c585f5cc922b3135b8618dc09c55e33522562d4dd0d",
+      "sourceSha256": "7d6e4dca3f45f032456c2c585f5cc922b3135b8618dc09c55e33522562d4dd0d",
+      "sha256": "43689fda62dae0e0b3e83ef9a00cf0f3393793f36971335e2212973453456af3",
       "copyPath": "modules/android-mcp-windows-setup/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -207,8 +227,10 @@
       "sourcePath": "dashboard/index.html",
       "branch": "master",
       "sourceRevision": "9696086ad35ba893e1c6fcb055ced81147a42550",
-      "sha256": "c273cbb710640492dfdcadcecbd64d0e788fdaeef02776e3dc1ba160fe15f390",
+      "sourceSha256": "c273cbb710640492dfdcadcecbd64d0e788fdaeef02776e3dc1ba160fe15f390",
+      "sha256": "9c7e6153f9ac2932e78d40e51894a791c0f4b1015f116bf3755abef7a694f414",
       "copyPath": "modules/data-analytics-portfolio/index.html",
+      "presentation": "compact-unified-v1",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
@@ -226,8 +248,10 @@
       "sourcePath": "project-lab/index.html",
       "branch": "master",
       "sourceRevision": "blob:9ca28fad3d5e8c4ad8e93b960c0a794375c7803d",
+      "sourceSha256": "4e2d74172a645cca581599952554fab9bff1c0906eabfaaee51f708d6671352c",
       "sha256": "4e2d74172a645cca581599952554fab9bff1c0906eabfaaee51f708d6671352c",
       "copyPath": "modules/mvahora2023/index.html",
+      "presentation": "source-only",
       "copiedMetadata": [
         "README.md",
         "data/source-manifest.json"
