@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "owner": "mvahora2023",
   "name": "Project Lab Unified",
-  "description": "Synchronized, isolated, read-only web module copies of twelve public source repositories.",
+  "description": "Eleven interactive technical project copies plus one tracked public portfolio source, all independently maintained.",
   "policy": {
     "privateRepos": false,
     "localDeviceData": false,
@@ -16,14 +16,14 @@
   "modules": [
     {
       "id": "compliance-gap-tracker-v2",
-      "title": "Compliance Gap Tracker",
+      "title": "Compliance Gap Tracker v2",
       "group": "Governance & Resilience",
       "role": "Flagship · compliance management",
       "repo": "mvahora2023/compliance-gap-tracker-v2",
       "branch": "master",
       "sourcePath": "dashboard/index.html",
       "initialSourceCommit": "53d0b0d7b8a2434227931a580f403bade1ae89cc",
-      "summary": "Detailed compliance review and trend demonstration",
+      "summary": "Current v2 synthetic compliance dashboard; v3 workflow upgrade is planned, not implemented",
       "kind": "static-web-copy",
       "webCopy": "modules/compliance-gap-tracker-v2/index.html",
       "originalUrl": "https://github.com/mvahora2023/compliance-gap-tracker-v2"
@@ -177,7 +177,7 @@
       "branch": "master",
       "sourcePath": "project-lab/index.html",
       "initialSourceCommit": "f84cdbf1208b1fbfe73bc75f6ebe3927302e98ec",
-      "summary": "Original public portfolio index, not an executable application",
+      "summary": "Public portfolio source retained for audit and sync only; excluded from Unified project gallery",
       "kind": "portfolio-index",
       "webCopy": "modules/mvahora2023/index.html",
       "originalUrl": "https://github.com/mvahora2023/mvahora2023"
