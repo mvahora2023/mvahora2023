@@ -72,3 +72,26 @@ test('Unified can retrieve actual CISA records without replacing synthetic detec
  expect(await frame.locator('#metrics').innerText()).toBe(original);
  await expect(page.locator('input[type=file]')).toHaveCount(0);
 });
+
+
+test('Data Analytics retrieves limited NYC 311 fields separately from fictional SQL metrics',async({page})=>{
+ await page.goto(URL);
+ await page.locator('.tile').filter({hasText:'Data Analytics Portfolio'}).getByRole('button',{name:'Open in Unified'}).click();
+ const frame=page.frameLocator('#frameArea iframe');
+ const original=await frame.locator('#metrics').innerText();
+ await frame.getByRole('button',{name:'Load public references'}).click();
+ await expect(frame.locator('#public-data-modes .pd-state')).toContainText('real public reference entries',{timeout:28000});
+ await expect(frame.locator('#public-data-modes .pd-item').first()).toBeVisible();
+ expect(await frame.locator('#metrics').innerText()).toBe(original);
+ await expect(frame.locator('input[type=file]')).toHaveCount(0);
+});
+test('NIST reference mode is separately labeled and never changes fabricated GRC risk scores',async({page})=>{
+ await page.goto(URL);
+ await page.locator('.tile').filter({hasText:'Enterprise GRC Program'}).getByRole('button',{name:'Open in Unified'}).click();
+ const frame=page.frameLocator('#frameArea iframe');
+ const original=await frame.locator('#metrics').innerText();
+ await frame.getByRole('button',{name:'Load public references'}).click();
+ await expect(frame.locator('#public-data-modes .pd-state')).toContainText('6 real public reference entries');
+ await expect(frame.locator('#public-data-modes .pd-item')).toHaveCount(6);
+ expect(await frame.locator('#metrics').innerText()).toBe(original);
+});
