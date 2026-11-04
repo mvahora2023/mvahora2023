@@ -1,6 +1,6 @@
 # Project Lab Unified
 
-**A separate deployed application built from twelve independently maintained public GitHub repositories.**
+**A separate deployed application with eleven visible technical modules backed by twelve independently maintained public GitHub sources.**
 
 - Production URL: https://project-lab-unified.vercel.app/
 - Source host (temporary): `mvahora2023/mvahora2023`, folder `unified-app/`
@@ -10,7 +10,7 @@
 
 ## What is actually copied in this milestone
 
-The synchronizer creates a fresh, pinned, **standalone browser copy** of each public repository's dashboard or portfolio page, plus its README and public source manifest. These copies are navigated from one separate application.
+The synchronizer creates a fresh, pinned, **standalone browser copy** of each public repository's dashboard or portfolio page, plus its README and public source manifest. Eleven technical modules are visible in the unified application. The twelfth source, the GitHub portfolio/index repository, stays tracked for source integrity but is deliberately excluded from the module gallery to avoid nesting Project Lab inside itself.
 
 This is **not yet a production deployment of all underlying services**. PowerShell, Python, databases, and other non-web programs remain original repository software, not functionality served by Vercel. They will require appropriate runtimes, integration interfaces, and additional tests to become fully embedded interactive features.
 
@@ -39,25 +39,17 @@ On each run it:
 
 An invalid module **blocks publication of the new release**. It must never silently fall back to invented source data.
 
-### Automatic Vercel publishing: authorization still required
+### Automatic Vercel publishing: connected and verified
 
-**The source synchronization currently works, but automatic *live deployment* does not.** Vercel reported that its GitHub integration is not installed or authorized for this account/team, so it could not link the Git repository.
+**GitHub → Vercel auto-deployment is operational.** The existing `project-lab-unified` Vercel project is linked to `mvahora2023/mvahora2023`, with `unified-app/site` as its root directory and `master` as its production branch. A controlled commit successfully triggered a READY production deployment. When the sync workflow commits updated verified browser copies to `master`, Vercel can publish them without a separate manual upload.
 
-To enable push-to-production after reviewing the process:
-1. In the Vercel dashboard, open the existing **project-lab-unified** project.
-2. Open **Settings → Git** and connect the GitHub integration, granting the minimum repository access needed.
-3. Select the **mvahora2023/mvahora2023** repository. This is the temporary source host until a dedicated `project-lab-unified` repo can be created and migrated.
-4. Set **Root Directory** to `unified-app/site`.
-5. Select `master` as the production branch.
-6. Test one harmless dashboard update, observe the GitHub sync CI, verify the exact source revision in `site/release.json`, and confirm Vercel deploys the tested release.
-
-As an alternative, a protected GitHub Actions production pipeline can deploy with a Vercel token stored **only in GitHub Actions secrets**. Never place credentials in this repository, chat, or module data. Do not add a secret-bearing pipeline until the required authorization is deliberately configured.
+This is still a best-effort scheduled source poll rather than instantaneous change notification for every upstream repository. GitHub Actions scheduling and Vercel builds can be delayed. Only the copied browser interfaces are deployed, not the complete backend or Windows tools.
 
 ## Validation
 
 - `node --test unified-app/tests/unified.test.mjs`: source allowlist, separation, and release integrity.
-- `node --test unified-app/tests/live-http.test.mjs`: deployment HTTP status and SHA-256 checks of all twelve production copies.
-- `unified-app/tests/live-browser.spec.mjs`: Chromium navigation, category filtering, isolated module iframe and release status. See the separate Playwright workflow.
+- `node --test unified-app/tests/live-http.test.mjs`: deployment HTTP status and SHA-256 checks of all twelve tracked production source copies.
+- `unified-app/tests/live-browser.spec.mjs`: Chromium navigation, eleven visible technical cards, category filtering, isolated module iframe and twelve-source release status. See the separate Playwright workflow.
 - Existing public-source privacy workflows remain independent in each original repository.
 
 ## Next development phases
@@ -70,3 +62,9 @@ As an alternative, a protected GitHub Actions production pipeline can deploy wit
 - Move critical module validations before any production deployment.
 
 **Current release is a tested foundation, not a fully integrated backend platform.**
+
+## Version labels
+
+- **Compliance Gap Tracker v2** is the current working source. Its existing synthetic dashboard is not a completed v3.
+- **Compliance Gap Tracker v3** is the planned major upgrade featuring editable findings, evidence references, assignments, data persistence, history, and tested workflows. The name changes only when its features are implemented and validated.
+- The profile repository is source-only in Unified, not an eleventh-versus-twelfth runnable application.
