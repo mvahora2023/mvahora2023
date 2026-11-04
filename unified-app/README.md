@@ -25,6 +25,23 @@ This is **not yet a production deployment of all underlying services**. PowerShe
 7. The copy is displayed in a sandboxed iframe **without `allow-same-origin`** to prevent shared cookies, origin storage, or JavaScript access between module copies and the parent application.
 8. No combined datasets, shared live database, private local logs, device access, file upload, or bidirectional code writeback is enabled.
 
+## Two presentation modes
+
+Each technical dashboard has **two views of the same source**:
+
+- **Standalone:** its original repository dashboard remains unchanged, with its own header, layout and data.
+- **Unified:** `scripts/embedded-shell.mjs` generates a separate, compact HTML copy that removes duplicate outer headings and footers, retains project-specific controls and safety notes, and removes extra vertical scrolling in result lists. The unified parent owns the navigation and overall page scroll.
+
+The compact copy is activated only when it is displayed inside an iframe with a per-visit session nonce. The iframe has an **opaque sandbox origin** (no `allow-same-origin`). It sends only a measured document height through `postMessage`; the parent checks the current iframe window, message origin, module ID and session nonce and refuses arbitrary data messages. No project record or state is transferred.
+
+The release tracks **both** `sourceSha256` (original HTML) and `sha256` (approved compact copy), so provenance is preserved without editing independent apps. The profile/index repository remains tracked but invisible in the unified module gallery.
+
+## Data sources
+
+Each independent technical dashboard retains its labeled synthetic demonstration and opt-in public-reference panel. Example public references include CISA KEV, NIST CSF 2.0, NYC 311 service requests and public GitHub release metadata. Public references appear **separately** and do not override synthetic risk scores, alerts or business KPIs. These panels are not a production database, continuous live feed, or claim that real assets were scanned.
+
+No local-device input, private repository, personal account or private dataset is imported.
+
 ## Automatic source synchronization
 
 GitHub Actions workflow [`unified-sync.yml`](../.github/workflows/unified-sync.yml) runs twice per hour (at minute 11 and 41, subject to GitHub schedule delays), can be invoked manually, and also responds to updates to its own source and configuration.
