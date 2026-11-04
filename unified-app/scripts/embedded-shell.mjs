@@ -10,7 +10,7 @@
  */
 export const EMBED_MESSAGE_TYPE = 'project-lab-unified:height:v1';
 const marker='data-unified-shell-adapter="1"';
-const STYLE=String.raw\`
+const STYLE=String.raw`
 /* Applied only inside a sandboxed Unified iframe, never standalone. */
 html[data-unified-embed="1"], html[data-unified-embed="1"] body {
   min-height:0 !important; overflow-x:hidden !important;
@@ -71,8 +71,8 @@ html[data-unified-embed="1"] .page { scroll-margin-top:0 !important; }
   html[data-unified-embed="1"] section.hero { display:block !important; }
   html[data-unified-embed="1"] section.hero aside.note { margin-top:9px !important; }
 }
-\`;
-const BRIDGE=String.raw\`
+`;
+const BRIDGE=String.raw`
 (function () {
   'use strict';
   // A standalone page never activates the Unified presentation adapter.
@@ -128,7 +128,7 @@ const BRIDGE=String.raw\`
     document.addEventListener('DOMContentLoaded', begin, {once:true});
   } else begin();
 })();
-\`;
+`;
 export function adaptUnifiedCopy(source, module) {
   if (module.kind === 'portfolio-index') return source;
   if (typeof source !== 'string' || !source.toLowerCase().includes('</head>') ||
@@ -138,8 +138,8 @@ export function adaptUnifiedCopy(source, module) {
   if (source.includes(marker) || source.includes(EMBED_MESSAGE_TYPE)) {
     throw new Error(module.id + ': presentation adapter already present in source');
   }
-  const style = '<style '+marker+'>\\n'+STYLE+'\\n</style>';
-  const script = '<script '+marker+'>\\n'+BRIDGE+'\\n</script>';
-  return source.replace(/<\/head>/i,style+'\\n</head>')
-               .replace(/<\/body>/i,script+'\\n</body>');
+  const style = '<style '+marker+'>\n'+STYLE+'\n</style>';
+  const script = '<script '+marker+'>\n'+BRIDGE+'\n</script>';
+  return source.replace(/<\/head>/i,style+'\n</head>')
+               .replace(/<\/body>/i,script+'\n</body>');
 }
