@@ -1,0 +1,56 @@
+name: Project Lab Unified source synchronization
+on:
+  schedule:
+    # Best-effort GitHub scheduling, not an immediate push webhook.
+    - cron: '11,41 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - 'project-lab/index.html'
+      - 'unified-app/manifest/**'
+      - 'unified-app/scripts/**'
+      - 'unified-app/tests/**'
+      - 'unified-app/site/index.html'
+      - 'unified-app/site/assets/**'
+      - '.github/workflows/unified-sync.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: project-lab-unified-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out unified source host
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate source manifest and shell
+        run: node --test unified-app/tests/unified.test.mjs
+      - name: Mirror independently published browser modules
+        run: node unified-app/scripts/sync.mjs
+      - name: Validate complete copied release
+        run: node --test unified-app/tests/unified.test.mjs
+      - name: Commit only when verified copied modules change
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -- unified-app/site/modules unified-app/site/release.json
+          if git diff --staged --quiet; then
+            echo "All twelve copies already match the approved release."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(unified): sync and validate twelve upstream module copies"
+          git push origin HEAD:master
