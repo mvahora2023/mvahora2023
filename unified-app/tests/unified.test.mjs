@@ -25,6 +25,16 @@ test('five categories with four flagships and one profile index',()=>{
  assert.equal(sources.modules.filter(x=>x.role.startsWith('Flagship')).length,4);
  assert.equal(sources.modules.filter(x=>x.kind==='portfolio-index').length,1);
 });
+test('only eleven technical modules appear in the app, with the portfolio source tracked internally',()=>{
+ const home=read('site/index.html'),app=read('site/assets/app.js');
+ assert.equal(sources.modules.filter(x=>x.kind!=='portfolio-index').length,11);
+ assert.equal(sources.modules.filter(x=>x.kind==='portfolio-index').length,1);
+ assert.doesNotMatch(home,/data-view="Portfolio"/);
+ assert.match(app,/isVisibleModule\s*=/);
+ assert.match(app,/Source-only · excluded from project gallery/);
+ assert.match(app,/11 modules · 12 sources/);
+ assert.match(home,/Four technical areas/);
+});
 test('website has no parent-scope module script execution or local-data inputs',()=>{
  const home=read('site/index.html'),app=read('site/assets/app.js');
  assert.match(home,/frame-src 'self'/);
