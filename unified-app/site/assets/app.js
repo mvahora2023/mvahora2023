@@ -5,6 +5,8 @@ const SOURCE_AREAS=[...AREAS,'Portfolio'];
 const isVisibleModule=m=>m?.kind!=='portfolio-index'&&m?.id!=='mvahora2023';
 const IDS=new Set(['compliance-gap-tracker-v2','enterprise-grc-program','tsa-biennial-audit-readiness-checklist','utility-tabletop-exercise-program','architecture-design-review-template','mini-soc-lab','ics-ot-risk-assessment-lab','safeops-toolkit','powershell-automation','android-mcp-windows-setup','data-analytics-portfolio','mvahora2023']);
 let release=null,category='all',activeId=null,query='';
+let activeFrame=null,frameSession=null;
+const FRAME_HEIGHT_MESSAGE='project-lab-unified:height:v1';
 const good=m=>m&&IDS.has(m.id)&&m.originalUrl==='https://github.com/mvahora2023/'+m.id&&m.copyPath==='modules/'+m.id+'/index.html'&&SOURCE_AREAS.includes(m.group)&&/^[a-f0-9]{64}$/.test(m.sha256);
 const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=String(text);return e;};
 const date=x=>{const d=new Date(x);return Number.isNaN(d.getTime())?'Unavailable':d.toLocaleString();};
@@ -20,6 +22,7 @@ function navigate(area,id=null,replace=false){
  render();
 }
 function render(){
+ if(!activeId){activeFrame=null;frameSession=null;}
  for(const b of document.querySelectorAll('[data-view]')){
   const chosen=!activeId&&category===b.dataset.view;
   b.classList.toggle('active',chosen);b.setAttribute('aria-current',chosen?'page':'false');
@@ -59,6 +62,7 @@ async function validateCopy(m){
  checked.set(m.id,true);
 }
 async function showModule(id){
+ activeFrame=null;frameSession=null;
  const m=release.modules.find(x=>x.id===id);
  if(!m||!isVisibleModule(m)){navigate('all');return;}
  $('viewerTitle').textContent=m.title;
@@ -77,7 +81,15 @@ async function showModule(id){
   frame.title='Isolated copy of '+m.title;
   frame.sandbox='allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox';
   frame.referrerPolicy='no-referrer';
-  frame.loading='eager';frame.src='/'+m.copyPath;
+  frame.loading='eager';
+  frameSession=crypto.randomUUID();
+  const src=new URL('/'+m.copyPath,location.origin);
+  src.searchParams.set('unified','1');
+  src.searchParams.set('project',m.id);
+  src.searchParams.set('session',frameSession);
+  frame.src=src.pathname+src.search;
+  frame.style.height='680px';
+  activeFrame=frame;
   box.replaceChildren(frame);
  }catch(e){
   if(activeId!==id)return;
@@ -110,5 +122,16 @@ document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',(
 $('search').addEventListener('input',e=>{query=e.target.value.toLowerCase().trim();renderCards();});
 $('back').addEventListener('click',()=>navigate('all'));
 $('refresh').addEventListener('click',()=>loadManifest().catch(e=>{const h=$('headerState');h.textContent=e.message;h.className='status error';}));
+// Sandboxed children have opaque origins. Only the currently opened frame can
+// report its *height*; no project dataset or shared state crosses the boundary.
+window.addEventListener('message',event=>{
+ if(!activeFrame||event.source!==activeFrame.contentWindow||event.origin!=='null')return;
+ const msg=event.data;
+ if(!msg||typeof msg!=='object'||msg.type!==FRAME_HEIGHT_MESSAGE||
+    msg.project!==activeId||msg.session!==frameSession||
+    !Number.isInteger(msg.height)||msg.height<250||msg.height>40000)return;
+ const next=msg.height+4;
+ if(activeFrame.style.height!==next+'px')activeFrame.style.height=next+'px';
+});
 window.addEventListener('popstate',()=>{if(!release)return;const p=new URL(location.href).searchParams,m=p.get('module'),a=p.get('area');if(m&&IDS.has(m)&&m!=='mvahora2023'){activeId=m;category='all';}else{activeId=null;category=AREAS.includes(a)||a==='sync'?a:'all';}render();});
 loadManifest().catch(e=>{const h=$('headerState');h.textContent='Release unavailable';h.className='status error';$('cards').replaceChildren(el('div','empty',e.message));});
