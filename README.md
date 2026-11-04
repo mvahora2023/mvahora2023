@@ -8,7 +8,7 @@ I build practical technical projects: Windows administration tools, interactive 
 
 ## Try my interactive project dashboards
 
-**[Open the public Project Lab](https://arsh-project-lab.vercel.app/)** to explore 11 technical projects. It includes an interactive Compliance Gap Tracker, sample log viewers, risk and asset inventories, source-linked SQL examples, and offline-ready checklists. All simulated data is labeled; the Project Lab does not connect to private or production systems.
+**[Open the public Project Lab](https://arsh-project-lab.vercel.app/)** to browse all 12 original public GitHub repositories, including this profile index. Eleven technical repositories have interactive demonstrations or source-grounded project viewers. SafeOps Toolkit, Mini SOC Lab, and Compliance Gap Tracker v2 are my current improvement priorities. Fictional datasets and training simulations are labeled; private repositories remain private.
 
 ## Featured projects
 
