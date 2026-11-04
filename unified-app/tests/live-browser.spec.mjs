@@ -35,7 +35,7 @@ test('opens and verifies a copied dashboard in an opaque-origin frame',async({pa
 test('release status shows all twelve source revisions',async({page})=>{
  await page.goto(URL);
  await page.getByRole('button',{name:'Release & sync status'}).click();
- await expect(page.locator('#syncRows tr')).toHaveCount(11);
+ await expect(page.locator('#syncRows tr')).toHaveCount(12);
  await expect(page.locator('#syncNote')).toContainText('Release generated');
 });
 
