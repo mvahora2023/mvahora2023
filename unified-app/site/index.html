@@ -46,7 +46,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 .viewer{border:1px solid var(--border);background:var(--panel);border-radius:13px;overflow:hidden}
 .viewerbar{padding:14px 17px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
 .viewerbar h2{font-size:1.18rem;margin:0}.viewerbar p{font-size:.8rem;color:var(--muted);margin:3px 0 0}
-.viewer-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.viewer iframe{display:block;border:0;width:100%;height:min(72vh,930px);min-height:510px;background:#0b1621}
+.viewer-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.viewer iframe{display:block;border:0;width:100%;height:680px;min-height:300px;background:#0b1621}
 .frame-explain{font-size:.77rem;color:var(--muted);padding:11px 17px;border-top:1px solid var(--border)}
 .details{display:flex;gap:15px;flex-wrap:wrap;border:1px solid var(--border);padding:13px 17px;background:var(--panel);margin-top:13px;border-radius:10px;font-size:.78rem;color:var(--muted)}
 .details code{color:var(--fg);font-family:ui-monospace,Consolas,monospace}
@@ -56,7 +56,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 footer{border-top:1px solid var(--border);padding:24px 0;font-size:.8rem;color:var(--muted)}
 [hidden]{display:none!important}
 @media(max-width:960px){.panel-area{grid-template-columns:1fr}.sidebar{position:static;display:flex;flex-wrap:wrap;gap:6px}.sidebar-title{width:100%;margin:0 4px 3px}.navbtn{width:auto;margin:0}}
-@media(max-width:660px){.shell{padding:0 14px}.mast .shell{min-height:62px}.mastlinks{font-size:.75rem}.hero{padding-top:31px}.grid{grid-template-columns:1fr}.tile{min-height:175px;padding:17px}.panel-area{gap:16px}.navbtn{font-size:.78rem;padding:9px}.viewer iframe{height:65vh;min-height:390px}.details{display:grid;gap:7px}}
+@media(max-width:660px){.shell{padding:0 14px}.mast .shell{min-height:62px}.mastlinks{font-size:.75rem}.hero{padding-top:31px}.grid{grid-template-columns:1fr}.tile{min-height:175px;padding:17px}.panel-area{gap:16px}.navbtn{font-size:.78rem;padding:9px}.viewer iframe{height:500px;min-height:280px}.details{display:grid;gap:7px}}
 </style>
 <script defer src="/assets/app.js"></script>
 </head><body>
@@ -66,7 +66,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;font-size:.8rem;color:v
 <main class="shell">
 <section class="hero"><div class="eyebrow">One coordinated application · Twelve independently tracked sources</div>
 <h1>Independent by design.<br><span>Unified by release.</span></h1>
-<p>Explore eleven interactive technical modules, built from separately maintained public repositories. The twelfth source, the GitHub portfolio index, stays tracked behind the scenes rather than appearing as another Project Lab.</p>
+<p>Explore eleven interactive technical modules with a compact Unified layout and one page scroll. The independent standalone sites keep their full interfaces, source files, and data. The twelfth tracked source, your GitHub portfolio, stays behind the scenes.</p>
 <div class="policy"><span>12 tracked public sources</span><span>Four technical areas</span><span>Synthetic + public references</span><span>Local integrations disabled</span></div></section>
 <div class="panel-area"><nav class="sidebar" aria-label="Portfolio areas">
 <div class="sidebar-title">Explore modules</div>
@@ -86,7 +86,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;font-size:.8rem;color:v
 </section>
 <section id="modulePanel" hidden>
 <div class="viewer"><div class="viewerbar"><div><h2 id="viewerTitle"></h2><p id="viewerSub"></p></div><div class="viewer-actions"><button class="btn" id="back" type="button">Back to projects</button><a class="btn" id="original" target="_blank" rel="noopener noreferrer">Original repository ↗</a></div></div>
-<div id="frameArea"></div><div class="frame-explain">Isolated, source-versioned web copy. This frame does not grant access to local files, your operating system, private accounts, or sibling modules. Some browser-local checklist storage may not persist inside the sandbox.</div></div>
+<div id="frameArea"></div><div class="frame-explain">Unified presentation mode: the original project header is condensed, the module fits the page, and sandbox isolation remains active. The standalone project page retains its full layout. No local files or private accounts are connected.</div></div>
 <div class="details" id="moduleDetails"></div>
 </section>
 <section id="syncPanel" hidden><div class="section-head"><div><h2>Release &amp; synchronization</h2><p>A transparent manifest of the exact upstream copies included in this deployed release</p></div><button class="btn" id="refresh" type="button">Refresh manifest</button></div>
