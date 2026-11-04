@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "project": "mvahora2023",
+  "synthetic": {
+    "source": "offline UI test fixture only; homepage repository entries are verified real public repositories",
+    "mode": "test fixture only"
+  },
+  "public": [
+    {
+      "id": "public-repos",
+      "label": "GitHub · current public repositories",
+      "type": "githubRepos"
+    }
+  ],
+  "localData": {
+    "enabled": false,
+    "fileImport": false,
+    "privateAccounts": false,
+    "deviceAccess": false
+  },
+  "dataPolicy": "Public data requested explicitly and shown separately; attribution and date shown; no local data collected or private account calls."
+}
