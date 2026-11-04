@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "project": "utility-tabletop-exercise-program",
+  "synthetic": {
+    "source": "fictional ransomware tabletop exercise",
+    "mode": "default"
+  },
+  "public": [
+    {
+      "id": "kev",
+      "label": "CISA KEV for scenario research",
+      "type": "kev"
+    },
+    {
+      "id": "nist",
+      "label": "NIST CSF 2.0 functions",
+      "type": "nist"
+    }
+  ],
+  "localData": {
+    "enabled": false,
+    "fileImport": false,
+    "privateAccounts": false,
+    "deviceAccess": false
+  },
+  "dataPolicy": "Public source is separate from demo claims, no local device connections; source and retrieval date visible."
+}

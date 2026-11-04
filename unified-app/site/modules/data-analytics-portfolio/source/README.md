@@ -1,0 +1,99 @@
+# data-analytics-portfolio
+
+![License](https://img.shields.io/github/license/mvahora2023/data-analytics-portfolio)
+![Last Commit](https://img.shields.io/github/last-commit/mvahora2023/data-analytics-portfolio)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-T--SQL-CC2927?logo=microsoftsqlserver&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-DAX-F2C811?logo=powerbi&logoColor=black)
+![Google Data Analytics](https://img.shields.io/badge/Google-Data%20Analytics%20Cert-4285F4?logo=google&logoColor=white)
+
+SQL schema design, T-SQL query library, Power BI DAX measures, and business intelligence case studies built on Microsoft SQL Server. Demonstrates database design, analysis-query writing, and documented reporting measures. The repository includes DAX measure definitions but not a packaged Power BI `.pbix` dashboard.
+
+---
+
+## Projects
+
+### Corporate Operations Database
+A 8-table normalized SQL Server schema modeling a fictional enterprise: Departments, Employees, Clients (tier-classified), Products, Projects, Orders, and Order Items. Designed with `CHECK` constraints for data quality enforcement, `IDENTITY` primary keys, explicit `FOREIGN KEY` references, and `DECIMAL(10,2)` for all monetary values.
+
+### SafeOps Security Operations Database
+A SQL schema for security operations data: service management events, audit log entries, and operational metrics. Demonstrates applying relational database design to security tooling — transforming flat log output into a queryable, reportable dataset.
+
+---
+
+## Repository Structure
+
+```
+data-analytics-portfolio/
+├── schema/
+│   ├── enterprise_operations_db.sql  — Full 8-table DDL with constraints and relationships
+│   ├── safeops_toolkit_db.sql        — Security operations schema
+│   └── SafeOps_Toolkit.sql           — SafeOps schema variant
+├── queries/
+│   ├── analyst_queries.sql           — 8 T-SQL analyst queries with window functions
+│   ├── case_study_analysis.sql       — Business case study: 4 queries answering real questions
+│   ├── schema_design_decisions.md    — 5 documented design decisions with rationale
+│   └── findings_report.md            — Structured analysis findings and recommendations
+└── dashboards/
+    └── dax_measures_library.md       — 8 DAX measures with code and descriptions
+```
+
+---
+
+## Schema Design Highlights
+
+| Decision | Implementation | Why |
+|---|---|---|
+| Status validation | `CHECK` constraints on all status columns | Rejects invalid data at the database layer — not in application code |
+| Monetary precision | `DECIMAL(10,2)` on all price/salary columns | Eliminates floating-point errors in financial calculations |
+| Primary keys | `IDENTITY` on all tables | No natural key assumptions that break under real data |
+| Referential integrity | Explicit `REFERENCES` on all foreign keys | Enforced consistency, not assumed |
+| Domain separation | Separate databases for operations vs. security | Mirrors enterprise data classification and access control principles |
+
+---
+
+## Query Library
+
+`analyst_queries.sql` includes:
+- Revenue by product category with running total (`OVER (ORDER BY ...)`)
+- Client tier distribution with percentage (`COUNT` + window)
+- Project on-time delivery rate by department
+- Top 5 products by revenue using `RANK()`
+- Order fulfillment rate by status
+- Employee salary distribution (`AVG` / `MIN` / `MAX` by department)
+- Monthly order volume trend
+- Client lifetime value (total order aggregation)
+
+---
+
+## DAX Measures
+
+`dashboards/dax_measures_library.md` includes 8 complete measures:
+`Revenue YTD` · `Revenue Growth % MoM` · `On-Time Delivery %` · `Average Order Value` · `Client Churn Rate` · `Product Margin %` · `Employee Headcount by Department` · `Order Fulfillment Rate`
+
+---
+
+## Certifications
+
+This work applies methodology from the **Google Data Analytics Certificate** — specifically the six-phase analysis framework (Ask / Prepare / Process / Analyze / Share / Act) mapped to real schema design decisions and dashboard outputs.
+
+---
+
+## License
+
+[MIT](LICENSE) — see the LICENSE file for details.
+
+## Interactive project dashboard (November 2026)
+
+- **[Open this project's public interactive explorer](https://arsh-project-lab.vercel.app/data-analytics-portfolio/index.html)**
+- **[Run the standalone HTML locally](dashboard/index.html)** (no account or service required)
+- **[Open the complete public Project Lab](https://arsh-project-lab.vercel.app/)**
+
+Explore the eight-table SQL model and recomputed synthetic order metrics. Source-linked sample data is embedded for offline inspection. Search, group filters and CSV export work locally; checklist review marks (where available) are browser-local only. The page is not a live backend, and changes in this repository will require a separate Vercel deployment until a Git integration is enabled. [Dashboard validation source](tests/dashboard_ui.test.mjs).
+
+## Data modes and privacy (November 2026)
+
+- **Default:** The existing dashboard or portfolio view displays labeled synthetic or authored demonstration material. The GitHub profile index is the exception: it lists **actual public repositories** and uses separate synthetic UI tests, not invented projects.
+- **Public references:** Open the project's dashboard and choose a verified public source. Records load only when you click **Load public references**; source provenance and retrieval information appear alongside the results. Public references never overwrite fictional KPIs, audit findings, or simulated incident results.
+- **Local data:** Disabled for the public web interface. No local files, personal accounts, Windows logs, connected devices, or private GitHub repositories are imported. Other command-line utilities in this repository remain separate from the public web interface.
+- **Source policy:** See [source manifest](data/source-manifest.json). Public fetches may be limited by third-party availability, rate limits, and browser security restrictions; the synthetic view works without them.
+- **Safety:** Do not publish personal documents, tokens, passwords, real user-directory paths, or identifying log records. Existing Git history may retain older versions; replacing a current file does not erase history.

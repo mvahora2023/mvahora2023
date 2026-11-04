@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "project": "architecture-design-review-template",
+  "synthetic": {
+    "source": "fictional security architecture review case study",
+    "mode": "default"
+  },
+  "public": [
+    {
+      "id": "nist",
+      "label": "NIST CSF 2.0 functions",
+      "type": "nist"
+    },
+    {
+      "id": "kev",
+      "label": "CISA KEV catalog",
+      "type": "kev"
+    }
+  ],
+  "localData": {
+    "enabled": false,
+    "fileImport": false,
+    "privateAccounts": false,
+    "deviceAccess": false
+  },
+  "dataPolicy": "Public data requested explicitly and shown separately; attribution and date shown; no local data collected or private account calls."
+}

@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "application": "Project Lab Unified",
+  "generatedAt": "2026-11-04T13:14:40.500Z",
+  "sourceCount": 12,
+  "dataPolicy": "synthetic and verified public reference only; local device and private account data disabled",
+  "isolation": "opaque-origin sandboxed iframes; no cross-module writeback",
+  "updatePolicy": "release is atomic: only after all twelve source copies and tests succeed",
+  "modules": [
+    {
+      "id": "compliance-gap-tracker-v2",
+      "title": "Compliance Gap Tracker",
+      "group": "Governance & Resilience",
+      "role": "Flagship · compliance management",
+      "summary": "Detailed compliance review and trend demonstration",
+      "originalUrl": "https://github.com/mvahora2023/compliance-gap-tracker-v2",
+      "sourcePath": "dashboard/index.html",
+      "branch": "master",
+      "sourceRevision": "53d0b0d7b8a2434227931a580f403bade1ae89cc",
+      "sha256": "263e5db759d5da4be84f209ec464a9077867c59015f98922d23c5b860acf59b4",
+      "copyPath": "modules/compliance-gap-tracker-v2/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "enterprise-grc-program",
+      "title": "Enterprise GRC Program",
+      "group": "Governance & Resilience",
+      "role": "Supporting · risk and controls",
+      "summary": "Risk registers, ownership and control treatment",
+      "originalUrl": "https://github.com/mvahora2023/enterprise-grc-program",
+      "sourcePath": "dashboard/index.html",
+      "branch": "main",
+      "sourceRevision": "a11f3af49e5ae660df303c4ee091c75d58147df4",
+      "sha256": "6ae8673d8e67ce2ea98e4ef473ad282cf22110ccc0acaffe8cb9a1136cd71458",
+      "copyPath": "modules/enterprise-grc-program/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "tsa-biennial-audit-readiness-checklist",
+      "title": "TSA Audit Readiness",
+      "group": "Governance & Resilience",
+      "role": "Supporting · evidence preparation",
+      "summary": "Fictional regulatory evidence-planning checklist",
+      "originalUrl": "https://github.com/mvahora2023/tsa-biennial-audit-readiness-checklist",
+      "sourcePath": "dashboard/index.html",
+      "branch": "master",
+      "sourceRevision": "7eea2f6c57263907303040f2f9e6cb9dc208300d",
+      "sha256": "4fd292b329c1f4e05640e1db0381a950094c3f3f05d728a938e6b271526e37cf",
+      "copyPath": "modules/tsa-biennial-audit-readiness-checklist/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "utility-tabletop-exercise-program",
+      "title": "Utility Tabletop Exercise",
+      "group": "Governance & Resilience",
+      "role": "Supporting · resilience",
+      "summary": "Scenario injects and response decisions",
+      "originalUrl": "https://github.com/mvahora2023/utility-tabletop-exercise-program",
+      "sourcePath": "dashboard/index.html",
+      "branch": "master",
+      "sourceRevision": "de6b90aaf71dfde86b4fe0c2a7c3a82d4f01dc3e",
+      "sha256": "12f4b2fddd894dcc9e76f15eeb025f353b312cab0b8349a74e7f9c4096a59c66",
+      "copyPath": "modules/utility-tabletop-exercise-program/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "architecture-design-review-template",
+      "title": "Architecture Design Review",
+      "group": "Governance & Resilience",
+      "role": "Supporting · architecture",
+      "summary": "Structured architecture review prompts",
+      "originalUrl": "https://github.com/mvahora2023/architecture-design-review-template",
+      "sourcePath": "dashboard/index.html",
+      "branch": "master",
+      "sourceRevision": "4b53f1a27c7ddeb1c90720fcbdf64f85aebe15be",
+      "sha256": "18a544503de72cafdde61bb557f824a6dc56c5544d696e910c216e5e8d8cf1a1",
+      "copyPath": "modules/architecture-design-review-template/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "mini-soc-lab",
+      "title": "Mini SOC Lab",
+      "group": "Cybersecurity & OT",
+      "role": "Flagship · detection analysis",
+      "summary": "Training incidents, ATT&CK and event-rate investigation",
+      "originalUrl": "https://github.com/mvahora2023/mini-soc-lab",
+      "sourcePath": "dashboard/index.html",
+      "branch": "main",
+      "sourceRevision": "bf5e419014cb9999981469bd664d482e6dcfca48",
+      "sha256": "73e530c93fe1f54dc09f8c904b91a4f221313ae3f3f812e629b6844c628d93e0",
+      "copyPath": "modules/mini-soc-lab/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "ics-ot-risk-assessment-lab",
+      "title": "ICS/OT Risk Assessment",
+      "group": "Cybersecurity & OT",
+      "role": "Supporting · industrial systems",
+      "summary": "Simulated industrial devices and security risk",
+      "originalUrl": "https://github.com/mvahora2023/ics-ot-risk-assessment-lab",
+      "sourcePath": "dashboard/index.html",
+      "branch": "master",
+      "sourceRevision": "52d720ea1f8f385c7614b127e25ef1810aa27ff3",
+      "sha256": "bfb0540ac28130ddc076ef56d4db1af8148904c181f7229518ce4e0311a74351",
+      "copyPath": "modules/ics-ot-risk-assessment-lab/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "safeops-toolkit",
+      "title": "SafeOps Toolkit",
+      "group": "IT Operations & Automation",
+      "role": "Flagship · Windows reliability",
+      "summary": "Safe Windows administration and event triage",
+      "originalUrl": "https://github.com/mvahora2023/safeops-toolkit",
+      "sourcePath": "dashboard/index.html",
+      "branch": "main",
+      "sourceRevision": "9a228d6820921f8e9d520f072b962528b68304cf",
+      "sha256": "dab92f6a739f72acad79899642cfbc973db2055ee6c7af236ac02272b2728fa4",
+      "copyPath": "modules/safeops-toolkit/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "powershell-automation",
+      "title": "PowerShell Automation",
+      "group": "IT Operations & Automation",
+      "role": "Supporting · scripts",
+      "summary": "Windows automation script catalog",
+      "originalUrl": "https://github.com/mvahora2023/powershell-automation",
+      "sourcePath": "dashboard/index.html",
+      "branch": "master",
+      "sourceRevision": "a6afc3f2ac36a86fc1bb9635d08ac693128de700",
+      "sha256": "b7e215efaf1270bc587b0bf8e77495732d6d87cb5498b29029535fde9a466c74",
+      "copyPath": "modules/powershell-automation/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "android-mcp-windows-setup",
+      "title": "Android MCP Windows Setup",
+      "group": "IT Operations & Automation",
+      "role": "Supporting · toolchain",
+      "summary": "Permissioned Android tooling setup workflow",
+      "originalUrl": "https://github.com/mvahora2023/android-mcp-windows-setup",
+      "sourcePath": "dashboard/index.html",
+      "branch": "master",
+      "sourceRevision": "bb380d7de5a9aaf9e7c33ec50e81b1fdf98b36e6",
+      "sha256": "7d6e4dca3f45f032456c2c585f5cc922b3135b8618dc09c55e33522562d4dd0d",
+      "copyPath": "modules/android-mcp-windows-setup/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "data-analytics-portfolio",
+      "title": "Data Analytics Portfolio",
+      "group": "Data & Analytics",
+      "role": "Flagship · business reporting",
+      "summary": "SQL schema and reproducible example analytics",
+      "originalUrl": "https://github.com/mvahora2023/data-analytics-portfolio",
+      "sourcePath": "dashboard/index.html",
+      "branch": "master",
+      "sourceRevision": "9696086ad35ba893e1c6fcb055ced81147a42550",
+      "sha256": "c273cbb710640492dfdcadcecbd64d0e788fdaeef02776e3dc1ba160fe15f390",
+      "copyPath": "modules/data-analytics-portfolio/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "static-web-copy",
+      "runtime": "isolated browser demonstration"
+    },
+    {
+      "id": "mvahora2023",
+      "title": "Portfolio Index",
+      "group": "Portfolio",
+      "role": "Portfolio source index",
+      "summary": "Original public portfolio index, not an executable application",
+      "originalUrl": "https://github.com/mvahora2023/mvahora2023",
+      "sourcePath": "project-lab/index.html",
+      "branch": "master",
+      "sourceRevision": "blob:9ca28fad3d5e8c4ad8e93b960c0a794375c7803d",
+      "sha256": "4e2d74172a645cca581599952554fab9bff1c0906eabfaaee51f708d6671352c",
+      "copyPath": "modules/mvahora2023/index.html",
+      "copiedMetadata": [
+        "README.md",
+        "data/source-manifest.json"
+      ],
+      "kind": "portfolio-index",
+      "runtime": "public portfolio snapshot"
+    }
+  ]
+}

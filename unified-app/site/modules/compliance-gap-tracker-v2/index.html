@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compliance Gap Tracker v2 | Interactive Portfolio Demo</title>
+<meta name="description" content="Interactive, offline-ready compliance operations demo with synthetic utility data, charts, filters and CSV exports.">
+<style>
+  :root{
+    --bg:#f4f7fa; --panel:#ffffff; --ink:#1f2a37; --muted:#5b6773; --border:#e1e7ec;
+    --accent:#0b5fa5; --green:#2e7d32; --amber:#f9a825; --red:#c62828; --grey:#9e9e9e;
+    --green-bg:#e8f5e9; --amber-bg:#fff8e1; --red-bg:#ffebee; --grey-bg:#f2f2f2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#12181f; --panel:#1a232c; --ink:#e8edf2; --muted:#9aa7b2; --border:#2b3946;
+      --green-bg:#173620; --amber-bg:#3a2f0d; --red-bg:#3a1518; --grey-bg:#252f38; }
+  }
+  :root[data-theme="dark"]{ --bg:#12181f; --panel:#1a232c; --ink:#e8edf2; --muted:#9aa7b2; --border:#2b3946;
+    --green-bg:#173620; --amber-bg:#3a2f0d; --red-bg:#3a1518; --grey-bg:#252f38; }
+  :root[data-theme="light"]{ --bg:#f4f7fa; --panel:#ffffff; --ink:#1f2a37; --muted:#5b6773; --border:#e1e7ec;
+    --green-bg:#e8f5e9; --amber-bg:#fff8e1; --red-bg:#ffebee; --grey-bg:#f2f2f2; }
+
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+  header{padding:20px 28px 8px; border-bottom:1px solid var(--border); background:var(--panel);}
+  header h1{margin:0 0 2px; font-size:1.35rem;}
+  header p{margin:0 0 14px; color:var(--muted); font-size:.85rem;}
+  nav{display:flex; gap:4px; flex-wrap:wrap;}
+  nav button{background:none; border:none; padding:10px 16px; font-size:.88rem; color:var(--muted); cursor:pointer; border-bottom:3px solid transparent; font-weight:600;}
+  nav button.active{color:var(--accent); border-bottom-color:var(--accent);}
+  main{padding:22px 28px 60px; max-width:1280px; margin:0 auto;}
+  .page{display:none;}
+  .page.active{display:block;}
+  .grid{display:grid; gap:16px;}
+  .kpi-row{grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); margin-bottom:18px;}
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px 18px;}
+  .kpi .label{font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px;}
+  .kpi .value{font-size:1.9rem; font-weight:700;}
+  .kpi .sub{font-size:.78rem; color:var(--muted); margin-top:4px;}
+  .kpi.good .value{color:var(--green);}
+  .kpi.warn .value{color:var(--amber);}
+  .kpi.bad .value{color:var(--red);}
+  h2.section-title{font-size:1.05rem; margin:26px 0 10px;}
+  table{width:100%; border-collapse:collapse; font-size:.83rem;}
+  th{text-align:left; padding:8px 10px; background:var(--grey-bg); color:var(--muted); font-weight:600; border-bottom:1px solid var(--border); position:sticky; top:0;}
+  td{padding:8px 10px; border-bottom:1px solid var(--border); vertical-align:top;}
+  .table-wrap{overflow-x:auto; border:1px solid var(--border); border-radius:10px; max-height:520px; overflow-y:auto;}
+  .badge{display:inline-block; padding:2px 9px; border-radius:12px; font-size:.74rem; font-weight:700;}
+  .badge.Compliant, .badge.Ready, .badge.Closed{background:var(--green-bg); color:var(--green);}
+  .badge.Partial, .badge.In.Progress{background:var(--amber-bg); color:var(--amber);}
+  .badge.Non-Compliant, .badge.Overdue, .badge.Open{background:var(--red-bg); color:var(--red);}
+  .badge.NA{background:var(--grey-bg); color:var(--grey);}
+  .slicers{display:flex; gap:10px; margin:14px 0; flex-wrap:wrap;}
+  .slicers select{padding:6px 10px; border-radius:6px; border:1px solid var(--border); background:var(--panel); color:var(--ink); font-size:.82rem;}
+  .chart-card canvas{width:100%; display:block;}
+  .two-col{grid-template-columns:1fr 1fr;}
+  footer{text-align:center; color:var(--muted); font-size:.75rem; padding:20px;}
+  .disclosure{background:var(--amber-bg); border:1px solid var(--amber); color:var(--ink); padding:10px 14px; border-radius:8px; font-size:.8rem; margin-bottom:16px;}
+  @media (max-width:800px){ .two-col{grid-template-columns:1fr;} }
+
+  /* Accessible presentation, responsive controls, and improved reading hierarchy */
+  :root { color-scheme: light dark; }
+  :root[data-theme="light"] { color-scheme: light; }
+  :root[data-theme="dark"] { color-scheme: dark; }
+  .site-header{padding:24px max(24px,calc((100vw - 1280px)/2));}
+  .header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+  .header-top h1{font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.035em;line-height:1.15;margin:6px 0 10px}
+  .eyebrow{font-size:.75rem;text-transform:uppercase;letter-spacing:.13em;color:var(--accent);font-weight:800}
+  .header-top p{max-width:760px;line-height:1.55}
+  .header-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .action-btn{cursor:pointer;border:1px solid var(--border);background:var(--panel);color:var(--ink);border-radius:9px;padding:10px 14px;font-weight:600}
+  .action-btn:hover{border-color:var(--accent)}
+  .action-btn:disabled{opacity:.4;cursor:not-allowed}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+  #tabs{display:flex;overflow-x:auto;gap:4px}
+  #tabs button{flex-shrink:0;border-radius:8px 8px 0 0}
+  #tabs button[aria-selected="true"]{background:var(--bg)}
+  .subheading{font-size:.82rem;line-height:1.55;color:var(--muted);margin:12px 0}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:15px}
+  .toolbar input{min-width:min(100%,290px);padding:11px 13px;border:1px solid var(--border);border-radius:9px;background:var(--panel);color:var(--ink);font:inherit}
+  .toolbar label{font-weight:650;font-size:.85rem}
+  .overview-note{padding:15px 18px;border-radius:10px;border:1px solid var(--border);background:var(--panel);font-size:.85rem;color:var(--muted);line-height:1.6;margin-top:16px}
+  .page[hidden]{display:none!important}
+  .page{min-width:0}
+  .chart-card{min-width:0;overflow:hidden}
+  .chart-card canvas{max-width:100%}
+  .kpi{min-height:100px}
+  .kpi .value{font-variant-numeric:tabular-nums}
+  .table-wrap tr:hover td{background:var(--grey-bg)}
+  .method-list{max-width:780px;line-height:1.7}
+  @media(max-width:700px){
+    header.site-header{padding:16px}
+    main{padding:16px 14px 40px}
+    .header-actions{width:100%}
+    .header-actions button{flex:1}
+    .table-wrap{max-height:none}
+    #tabs button{padding:11px}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <div>
+      <span class="eyebrow">Portfolio / Interactive case study</span>
+      <h1>Compliance Gap Tracker <span style="color:var(--accent)">v2</span></h1>
+      <p>Keystone Gas &amp; Electric · Fictional utility · Historical demonstration snapshot: July 2026</p>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="action-btn" id="themeToggle" aria-label="Toggle light and dark theme">◐ Theme</button>
+      <button type="button" class="action-btn" id="exportBtn" aria-label="Download visible table as CSV" disabled>↓ Export CSV</button>
+    </div>
+  </div>
+  <nav id="tabs" role="tablist" aria-label="Dashboard views">
+    <button role="tab" id="tab-exec" aria-controls="page-exec" aria-selected="true" tabindex="0" data-page="exec" class="active">Executive Summary</button>
+    <button role="tab" id="tab-tsa" aria-controls="page-tsa" aria-selected="false" tabindex="-1" data-page="tsa">TSA Requirements</button>
+    <button role="tab" id="tab-puc" aria-controls="page-puc" aria-selected="false" tabindex="-1" data-page="puc">PUC Requirements</button>
+    <button role="tab" id="tab-exceptions" aria-controls="page-exceptions" aria-selected="false" tabindex="-1" data-page="exceptions">Exception &amp; Gap Tracker</button>
+    <button role="tab" id="tab-trend" aria-controls="page-trend" aria-selected="false" tabindex="-1" data-page="trend">Trend &amp; Metrics</button>
+    <button role="tab" id="tab-method" aria-controls="page-method" aria-selected="false" tabindex="-1" data-page="method">Methodology</button>
+  </nav>
+</header>
+
+<main>
+  <div class="toolbar"><label for="searchRows">Explore the sample data</label><input id="searchRows" type="search" placeholder="Search the current table..." disabled></div>
+  <div class="disclosure">DEMO ONLY: All records, names, scores and history are fabricated for a fictional organization. This is not regulatory compliance evidence or a live connected system.</div>
+
+  <!-- PAGE: EXECUTIVE SUMMARY -->
+  <section class="page active" id="page-exec" role="tabpanel" aria-labelledby="tab-exec">
+    <div class="grid kpi-row">
+      <div class="card kpi good"><div class="label">Overall Compliance %</div><div class="value" id="kpiCompliance">—</div><div class="sub">Fully compliant requirements / all sample requirements</div></div>
+      <div class="card kpi warn"><div class="label">Open Exceptions</div><div class="value" id="kpiOpen">—</div><div class="sub">Open items in the sample exception register</div></div>
+      <div class="card kpi bad"><div class="label">Overdue Exceptions</div><div class="value" id="kpiOverdue">—</div><div class="sub">Open more than 90 sample days</div></div>
+      <div class="card kpi bad"><div class="label">High-risk Exceptions</div><div class="value" id="kpiHighRisk">—</div><div class="sub">Open high-risk items in sample register</div></div>
+    </div>
+    <div class="grid two-col">
+      <div class="card chart-card">
+        <strong>6-Month Compliance Trend</strong>
+        <canvas id="chartExecTrend" height="160"></canvas>
+      </div>
+      <div class="card chart-card">
+        <strong>Requirement Status Distribution</strong>
+        <canvas id="chartExecDonut" height="160"></canvas>
+      </div>
+    </div>
+    <div class="overview-note">All four headline metrics are calculated from the same synthetic requirements and exceptions displayed in the detail tables. Monthly trend values are separate fictional historical examples; they are not measured results.</div>
+    <p class="sub" style="color:var(--muted); margin-top:14px;">Historical example snapshot dated July 2026. This offline demonstration does not refresh from any regulator, utility system, or database.</p>
+  </section>
+
+  <!-- PAGE: TSA REQUIREMENTS -->
+  <section class="page" id="page-tsa" role="tabpanel" aria-labelledby="tab-tsa" hidden>
+    <h2 class="section-title">TSA Security Directive Requirements (18)</h2>
+    <div class="slicers">
+      <select id="tsaDomainFilter"><option value="">All Control Domains</option></select>
+      <select id="tsaStatusFilter"><option value="">All Statuses</option><option>Compliant</option><option>Partial</option><option>Non-Compliant</option></select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Req. ID</th><th>Control Domain</th><th>Status</th><th>Evidence Artifact</th><th>Owner</th><th>Days Since Review</th></tr></thead>
+        <tbody id="tsaTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PAGE: PUC REQUIREMENTS -->
+  <section class="page" id="page-puc" role="tabpanel" aria-labelledby="tab-puc" hidden>
+    <h2 class="section-title">PA PUC Requirements (12)</h2>
+    <div class="slicers">
+      <select id="pucDomainFilter"><option value="">All Control Domains</option></select>
+      <select id="pucStatusFilter"><option value="">All Statuses</option><option>Compliant</option><option>Partial</option><option>Non-Compliant</option></select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Req. ID</th><th>Control Domain</th><th>Status</th><th>Evidence Artifact</th><th>Owner</th><th>Days Since Review</th></tr></thead>
+        <tbody id="pucTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PAGE: EXCEPTIONS -->
+  <section class="page" id="page-exceptions" role="tabpanel" aria-labelledby="tab-exceptions" hidden>
+    <h2 class="section-title">Open Exceptions by Control Domain</h2>
+    <div class="grid two-col">
+      <div class="card chart-card"><canvas id="chartExcDomain" height="180"></canvas></div>
+      <div class="card chart-card"><strong>Exception Age Distribution</strong><canvas id="chartExcAge" height="180"></canvas></div>
+    </div>
+    <h2 class="section-title">Remediation Owner Workload</h2>
+    <div class="card chart-card"><canvas id="chartOwnerWorkload" height="140"></canvas></div>
+    <h2 class="section-title">Open Exceptions Detail</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Exception ID</th><th>Control Domain</th><th>Description</th><th>Risk Level</th><th>Days Open</th><th>Owner</th><th>Status</th></tr></thead>
+        <tbody id="excTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PAGE: TREND -->
+  <section class="page" id="page-trend" role="tabpanel" aria-labelledby="tab-trend" hidden>
+    <div class="grid two-col">
+      <div class="card chart-card"><strong>Rolling 6-Month Compliance %</strong><canvas id="chartTrendCompliance" height="180"></canvas></div>
+      <div class="card chart-card"><strong>Monthly Exception Closure Rate</strong><canvas id="chartTrendClosure" height="180"></canvas></div>
+    </div>
+    <div class="card chart-card" style="margin-top:16px;"><strong>Audit-Readiness Score Over Time</strong><canvas id="chartTrendAudit" height="140"></canvas></div>
+  </section>
+
+  <section class="page" id="page-method" role="tabpanel" aria-labelledby="tab-method" hidden>
+    <h2>About this demonstration</h2>
+    <div class="overview-note method-list">
+      <p><strong>What this is:</strong> A browser-only portfolio demonstration of the reporting interface a cybersecurity compliance team might use. Keystone Gas &amp; Electric, staff names, status records and reports are fictional.</p>
+      <p><strong>What this is not:</strong> A real-time monitoring platform, legal interpretation of TSA / PUC obligations, or evidence of actual utility controls. Requirements are mock categories, not authoritative regulatory language.</p>
+      <p><strong>Data model:</strong> The demo generates 18 TSA-labeled and 12 PUC-labeled sample requirements, and defines 11 example open exceptions. The compliance percentage equals the count of fully compliant rows divided by all requirement rows. Overdue exceptions use an illustrative 90-day threshold. The high-risk count includes exceptions marked High.</p>
+      <p><strong>Trend data:</strong> February–July 2026 series are deliberately invented display examples. They are not forecasts, independent measurements, or a continuation of a live data feed.</p>
+      <p><strong>Technical design:</strong> Vanilla HTML, CSS, and JavaScript; custom Canvas visualizations; responsive table filtering and CSV export; local/offline support. No login or third-party tracking scripts.</p>
+      <p><strong>Source and author:</strong> <a href="https://github.com/mvahora2023/compliance-gap-tracker-v2" target="_blank" rel="noopener noreferrer">GitHub source repository</a> · Mahmadarsh Vahora.</p>
+    </div>
+  </section>
+</main>
+
+<footer>Compliance Gap Tracker v2 — Portfolio Project by Mahmadarsh Vahora · Static prototype, self-contained, no external dependencies</footer>
+
+<script>
+/* ---------- Sample Data (synthetic, portfolio use only) ---------- */
+const DOMAINS = ["Cybersecurity Coordinator","Incident Response Plan","Vulnerability Assessment","Architecture Design Review","Implementation Plan","Access Control","Network Segmentation","Patch Management","Supply Chain / Third-Party","Awareness Training"];
+
+function makeReq(prefix, n, domains){
+  const statuses = ["Compliant","Compliant","Compliant","Partial","Partial","Non-Compliant"];
+  const owners = ["J. Alvarez","R. Chen","M. Torres","S. Patel","GRC Analyst"];
+  const rows = [];
+  for(let i=1;i<=n;i++){
+    const domain = domains[i % domains.length];
+    const status = statuses[i % statuses.length];
+    rows.push({
+      id: prefix + "-" + String(i).padStart(3,"0"),
+      domain, status,
+      evidence: domain.replace(/[^A-Za-z]/g,"") + "-Evidence-" + i + ".pdf",
+      owner: owners[i % owners.length],
+      daysSince: (i * 13) % 400
+    });
+  }
+  return rows;
+}
+const TSA_REQS = makeReq("TSA", 18, DOMAINS);
+const PUC_REQS = makeReq("PUC", 12, ["PUC Filing Calendar","Reliability Reporting","Safety Program Alignment","Incident Notification","Infrastructure Investment Review"]);
+
+const EXCEPTIONS = [
+  {id:"EXC-0067", domain:"Patch Management", desc:"OT asset unpatched pending vendor validation window", risk:"High", days:110, owner:"R. Chen", status:"Open"},
+  {id:"EXC-0071", domain:"Network Segmentation", desc:"Level 1/Level 2 segmentation remediation in progress", risk:"High", days:45, owner:"M. Torres", status:"Open"},
+  {id:"EXC-0058", domain:"Supply Chain / Third-Party", desc:"Third-party vendor risk assessment overdue for renewal", risk:"Medium", days:62, owner:"S. Patel", status:"Open"},
+  {id:"EXC-0074", domain:"Access Control", desc:"MFA rollout incomplete for one remote access gateway", risk:"Medium", days:28, owner:"J. Alvarez", status:"Open"},
+  {id:"EXC-0066", domain:"Awareness Training", desc:"OT-specific role-based training completion below 100% for one dept.", risk:"Low", days:40, owner:"GRC Analyst", status:"Open"},
+  {id:"EXC-0080", domain:"Vulnerability Assessment", desc:"Critical finding remediation exceeding target window", risk:"High", days:22, owner:"R. Chen", status:"Open"},
+  {id:"EXC-0082", domain:"Architecture Design Review", desc:"Remote HMI project conditions not yet fully closed", risk:"Medium", days:15, owner:"M. Torres", status:"Open"},
+  {id:"EXC-0084", domain:"Incident Response Plan", desc:"CIRP annual test lessons-learned not yet incorporated", risk:"Medium", days:9, owner:"GRC Analyst", status:"Open"},
+  {id:"EXC-0085", domain:"Access Control", desc:"Privileged access recertification overdue for one system", risk:"Low", days:33, owner:"J. Alvarez", status:"Open"},
+  {id:"EXC-0086", domain:"Patch Management", desc:"Legacy printer firmware unmanaged on OT VLAN", risk:"Low", days:75, owner:"S. Patel", status:"Open"},
+  {id:"EXC-0087", domain:"Network Segmentation", desc:"SIEM integration for OT switch logging delayed", risk:"Medium", days:8, owner:"R. Chen", status:"Open"},
+];
+
+const TREND_MONTHS = ["Feb","Mar","Apr","May","Jun","Jul"];
+const TREND_COMPLIANCE = [35, 37, 41, 43, 47, 50];
+const TREND_CLOSURE = [62, 58, 70, 65, 74, 71];
+const TREND_AUDIT = [70, 72, 74, 76, 76, 79];
+
+/* ---------- Accessible tabs and table controls ---------- */
+const tabButtons = [...document.querySelectorAll('#tabs [role="tab"]')];
+function showPage(id){
+  for(const btn of tabButtons){
+    const selected = btn.dataset.page===id;
+    btn.classList.toggle('active',selected);
+    btn.setAttribute('aria-selected',String(selected));
+    btn.tabIndex=selected?0:-1;
+  }
+  for(const page of document.querySelectorAll('.page')){
+    const selected=page.id==='page-'+id;
+    page.classList.toggle('active',selected);
+    page.hidden=!selected;
+  }
+  document.getElementById('searchRows').value='';
+  updateToolbar();
+  requestAnimationFrame(drawVisibleCharts);
+}
+tabButtons.forEach((btn,idx)=>{
+  btn.addEventListener('click',()=>showPage(btn.dataset.page));
+  btn.addEventListener('keydown',(ev)=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(ev.key))return;
+    ev.preventDefault();
+    const next=ev.key==='Home'?0:ev.key==='End'?tabButtons.length-1:(idx+(ev.key==='ArrowRight'?1:-1)+tabButtons.length)%tabButtons.length;
+    tabButtons[next].focus();showPage(tabButtons[next].dataset.page);
+  });
+});
+function getActiveTable(){return document.querySelector('.page.active table');}
+function updateToolbar(){
+  const hasTable=!!getActiveTable();
+  document.getElementById('searchRows').disabled=!hasTable;
+  document.getElementById('exportBtn').disabled=!hasTable;
+}
+function applyTableSearch(){
+  const q=document.getElementById('searchRows').value.trim().toLowerCase();
+  const table=getActiveTable();
+  if(!table)return;
+  for(const tr of table.tBodies[0].rows){tr.hidden=!!q&&!tr.textContent.toLowerCase().includes(q);}
+}
+document.getElementById('searchRows').addEventListener('input',applyTableSearch);
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const table=getActiveTable();if(!table)return;
+  const rows=[...table.querySelectorAll('thead tr'),...table.tBodies[0].rows].filter(r=>!r.hidden);
+  const encodeCell=(v)=>{
+    const safe=/^[=+\-@\t\r]/.test(v)?'\''+v:v;
+    return '"'+safe.replace(/"/g,'""')+'"';
+  };
+  const csv=rows.map(r=>[...r.cells].map(c=>encodeCell(c.textContent.trim())).join(',')).join('\r\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='compliance-demo-'+document.querySelector('.page.active').id.replace('page-','')+'.csv';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),500);
+});
+document.getElementById('themeToggle').addEventListener('click',()=>{
+  const current=document.documentElement.dataset.theme|| (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  document.documentElement.dataset.theme=current==='dark'?'light':'dark';
+  requestAnimationFrame(drawVisibleCharts);
+});
+function syncSearch(){applyTableSearch();}
+/* ---------- Table rendering ---------- */
+function statusClass(s){ return s.replace(/\s+/g,"."); }
+function renderReqTable(tbodyId, data){
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = data.map(r => `<tr>
+    <td>${r.id}</td><td>${r.domain}</td>
+    <td><span class="badge ${statusClass(r.status)}">${r.status}</span></td>
+    <td>${r.evidence}</td><td>${r.owner}</td><td>${r.daysSince}</td>
+  </tr>`).join('');
+}
+renderReqTable('tsaTableBody', TSA_REQS);
+renderReqTable('pucTableBody', PUC_REQS);
+
+function populateFilter(selectId, list, key){
+  const sel = document.getElementById(selectId);
+  const uniq = [...new Set(list.map(r=>r[key]))];
+  uniq.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); });
+}
+populateFilter('tsaDomainFilter', TSA_REQS, 'domain');
+populateFilter('pucDomainFilter', PUC_REQS, 'domain');
+
+function wireFilters(domainId, statusId, data, tbodyId){
+  function apply(){
+    const d = document.getElementById(domainId).value;
+    const s = document.getElementById(statusId).value;
+    renderReqTable(tbodyId, data.filter(r => (!d||r.domain===d) && (!s||r.status===s)));
+    syncSearch();
+  }
+  document.getElementById(domainId).addEventListener('change', apply);
+  document.getElementById(statusId).addEventListener('change', apply);
+}
+wireFilters('tsaDomainFilter','tsaStatusFilter', TSA_REQS, 'tsaTableBody');
+wireFilters('pucDomainFilter','pucStatusFilter', PUC_REQS, 'pucTableBody');
+
+document.getElementById('excTableBody').innerHTML = EXCEPTIONS.map(e => `<tr>
+  <td>${e.id}</td><td>${e.domain}</td><td>${e.desc}</td>
+  <td><span class="badge ${e.risk==='High'?'Non-Compliant':e.risk==='Medium'?'Partial':'Compliant'}">${e.risk}</span></td>
+  <td>${e.days}</td><td>${e.owner}</td><td><span class="badge Open">${e.status}</span></td>
+</tr>`).join('');
+
+/* ---------- Minimal canvas chart helpers (no external libs) ---------- */
+function getInk(){ return getComputedStyle(document.body).getPropertyValue('--ink').trim(); }
+function getMuted(){ return getComputedStyle(document.body).getPropertyValue('--muted').trim(); }
+function getBorder(){ return getComputedStyle(document.body).getPropertyValue('--border').trim(); }
+
+function drawBarChart(canvas, labels, values, colors, opts={}){
+  const dpr = window.devicePixelRatio||1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width*dpr; canvas.height = (opts.height||160)*dpr;
+  canvas.style.height = (opts.height||160)+'px';
+  const ctx = canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  const W = rect.width, H = opts.height||160;
+  ctx.clearRect(0,0,W,H);
+  const max = Math.max(...values, 1);
+  const padL=30, padB=46, padT=10, padR=10;
+  const chartW = W-padL-padR, chartH = H-padT-padB;
+  const barW = chartW/values.length*0.6;
+  const gap = chartW/values.length;
+  ctx.strokeStyle = getBorder(); ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,H-padB); ctx.lineTo(W-padR,H-padB); ctx.stroke();
+  ctx.fillStyle = getMuted(); ctx.font='10px sans-serif'; ctx.textAlign='center';
+  values.forEach((v,i)=>{
+    const x = padL + gap*i + (gap-barW)/2;
+    const h = (v/max)*chartH;
+    ctx.fillStyle = colors ? colors[i%colors.length] : '#0b5fa5';
+    ctx.fillRect(x, H-padB-h, barW, h);
+    ctx.fillStyle = getMuted();
+    const label = labels[i].length>10 ? labels[i].slice(0,9)+'…' : labels[i];
+    ctx.save(); ctx.translate(x+barW/2, H-padB+12); ctx.rotate(0); ctx.fillText(label, 0, 8); ctx.restore();
+    ctx.fillStyle = getInk(); ctx.fillText(v, x+barW/2, H-padB-h-4);
+  });
+}
+
+function drawLineChart(canvas, labels, series, opts={}){
+  const dpr = window.devicePixelRatio||1;
+  const rect = canvas.getBoundingClientRect();
+  const H = opts.height||160;
+  canvas.width = rect.width*dpr; canvas.height = H*dpr;
+  canvas.style.height = H+'px';
+  const ctx = canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  const W = rect.width;
+  ctx.clearRect(0,0,W,H);
+  const allVals = series.flatMap(s=>s.values);
+  const max = Math.max(...allVals)*1.1, min = Math.min(...allVals)*0.9;
+  const padL=32, padB=26, padT=14, padR=14;
+  const chartW = W-padL-padR, chartH = H-padT-padB;
+  ctx.strokeStyle = getBorder(); ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,H-padB); ctx.lineTo(W-padR,H-padB); ctx.stroke();
+  ctx.fillStyle = getMuted(); ctx.font='10px sans-serif'; ctx.textAlign='center';
+  labels.forEach((l,i)=>{
+    const x = padL + chartW*(i/(labels.length-1));
+    ctx.fillText(l, x, H-padB+14);
+  });
+  series.forEach(s=>{
+    ctx.strokeStyle = s.color; ctx.lineWidth = 2; ctx.beginPath();
+    s.values.forEach((v,i)=>{
+      const x = padL + chartW*(i/(s.values.length-1));
+      const y = padT + chartH*(1-((v-min)/(max-min)));
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+    s.values.forEach((v,i)=>{
+      const x = padL + chartW*(i/(s.values.length-1));
+      const y = padT + chartH*(1-((v-min)/(max-min)));
+      ctx.fillStyle = s.color; ctx.beginPath(); ctx.arc(x,y,2.5,0,7); ctx.fill();
+    });
+  });
+}
+
+function drawDonut(canvas, labels, values, colors, opts={}){
+  const dpr = window.devicePixelRatio||1;
+  const rect = canvas.getBoundingClientRect();
+  const H = opts.height||160;
+  canvas.width = rect.width*dpr; canvas.height = H*dpr;
+  canvas.style.height = H+'px';
+  const ctx = canvas.getContext('2d'); ctx.scale(dpr,dpr);
+  const W = rect.width;
+  ctx.clearRect(0,0,W,H);
+  const total = values.reduce((a,b)=>a+b,0);
+  const cx = H/2, cy = H/2, r = H/2-10;
+  let start = -Math.PI/2;
+  values.forEach((v,i)=>{
+    const angle = (v/total)*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,start+angle); ctx.closePath();
+    ctx.fillStyle = colors[i%colors.length]; ctx.fill();
+    start += angle;
+  });
+  ctx.globalCompositeOperation='destination-out';
+  ctx.beginPath(); ctx.arc(cx,cy,r*0.55,0,7); ctx.fill();
+  ctx.globalCompositeOperation='source-over';
+  // legend
+  let lx = H+16, ly = 18;
+  ctx.font='11px sans-serif'; ctx.textAlign='left';
+  labels.forEach((l,i)=>{
+    ctx.fillStyle = colors[i%colors.length]; ctx.fillRect(lx, ly-9, 9, 9);
+    ctx.fillStyle = getInk(); ctx.fillText(`${l} (${values[i]})`, lx+14, ly);
+    ly += 16;
+  });
+}
+
+/* ---------- Chart data and tab-aware rendering ---------- */
+const CHART_GREEN='#2e7d32', CHART_AMBER='#f9a825', CHART_RED='#c62828', CHART_BLUE='#0b5fa5';
+const allRequirements=[...TSA_REQS,...PUC_REQS];
+const statusCounts={Compliant:0,Partial:0,'Non-Compliant':0};
+allRequirements.forEach(r=>statusCounts[r.status]++);
+const domainCounts={};EXCEPTIONS.forEach(e=>domainCounts[e.domain]=(domainCounts[e.domain]||0)+1);
+const ageBuckets={'0-30':0,'31-60':0,'61-90':0,'90+':0};
+EXCEPTIONS.forEach(e=>{if(e.days<=30)ageBuckets['0-30']++;else if(e.days<=60)ageBuckets['31-60']++;else if(e.days<=90)ageBuckets['61-90']++;else ageBuckets['90+']++;});
+const ownerCounts={};EXCEPTIONS.forEach(e=>ownerCounts[e.owner]=(ownerCounts[e.owner]||0)+1);
+document.getElementById('kpiCompliance').textContent=Math.round(100*statusCounts.Compliant/allRequirements.length)+'%';
+document.getElementById('kpiOpen').textContent=String(EXCEPTIONS.filter(x=>x.status==='Open').length);
+document.getElementById('kpiOverdue').textContent=String(EXCEPTIONS.filter(x=>x.status==='Open'&&x.days>90).length);
+document.getElementById('kpiHighRisk').textContent=String(EXCEPTIONS.filter(x=>x.status==='Open'&&x.risk==='High').length);
+
+const graphSpecs=[
+  ['chartExecTrend','Compliance percentage trend February to July 2026, fictional data',el=>drawLineChart(el,TREND_MONTHS,[{values:TREND_COMPLIANCE,color:CHART_BLUE}],{height:160})],
+  ['chartExecDonut','Requirement counts: '+Object.entries(statusCounts).map(([k,v])=>k+' '+v).join(', '),el=>drawDonut(el,Object.keys(statusCounts),Object.values(statusCounts),[CHART_GREEN,CHART_AMBER,CHART_RED],{height:150})],
+  ['chartExcDomain','Open exception counts by control domain',el=>drawBarChart(el,Object.keys(domainCounts),Object.values(domainCounts),[CHART_BLUE],{height:200})],
+  ['chartExcAge','Open exception age buckets',el=>drawBarChart(el,Object.keys(ageBuckets),Object.values(ageBuckets),[CHART_GREEN,CHART_AMBER,CHART_RED,CHART_RED],{height:200})],
+  ['chartOwnerWorkload','Open exception counts by remediation owner',el=>drawBarChart(el,Object.keys(ownerCounts),Object.values(ownerCounts),[CHART_BLUE],{height:140})],
+  ['chartTrendCompliance','Illustrative compliance percentage trend',el=>drawLineChart(el,TREND_MONTHS,[{values:TREND_COMPLIANCE,color:CHART_BLUE}],{height:180})],
+  ['chartTrendClosure','Illustrative monthly exception closure rate',el=>drawBarChart(el,TREND_MONTHS,TREND_CLOSURE,[CHART_GREEN],{height:180})],
+  ['chartTrendAudit','Illustrative audit readiness score trend',el=>drawLineChart(el,TREND_MONTHS,[{values:TREND_AUDIT,color:CHART_AMBER}],{height:140})]
+];
+function drawVisibleCharts(){
+  for(const [id,label,draw] of graphSpecs){
+    const el=document.getElementById(id);
+    if(!el||!el.closest('.page.active'))continue;
+    if(el.getBoundingClientRect().width<10)continue;
+    el.setAttribute('role','img');el.setAttribute('aria-label',label);
+    draw(el);
+  }
+}
+window.addEventListener('resize',()=>requestAnimationFrame(drawVisibleCharts));
+updateToolbar();requestAnimationFrame(drawVisibleCharts);
+</script>
+<script>
+/* Public and synthetic data modes. Opt-in public reads only. No local imports. */
+(()=>{"use strict";
+const CONF={"description":"The compliance metrics above are synthetic. Public NIST CSF 2.0 functions and CISA KEV are separate reference records; they never alter the fictional utility's scores.","sources":[{"id":"nist","label":"NIST CSF 2.0 functions","type":"nist"},{"id":"kev","label":"CISA KEV exploited vulnerabilities","type":"kev"}],"synthetic":"fictional utility compliance requirement and exception records"};
+const $=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=String(text);if(cls)e.className=cls;return e;};
+const style=$("style");style.textContent='#public-data-modes{max-width:1150px;margin:34px auto;padding:22px;border:1px solid #487e7d;background:#14303d;color:#e7f9f7;border-radius:15px;font-family:inherit}#public-data-modes h2{color:#fff;margin:0 0 9px;font-size:1.3rem}#public-data-modes .pd-note,#public-data-modes .pd-state{font-size:.86rem;color:#c5dfdc;line-height:1.6}#public-data-modes .pd-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}#public-data-modes button,#public-data-modes select{font:inherit;border:1px solid #618b88;background:#193c48;color:#fff;padding:10px 12px;border-radius:9px;cursor:pointer}#public-data-modes button:disabled{opacity:.5}#public-data-modes .pd-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}#public-data-modes .pd-item{background:#0e2533;border:1px solid #40686a;border-radius:11px;padding:12px;min-width:0}#public-data-modes .pd-item h3{color:#eafff9;font-size:.93rem;margin:3px 0;overflow-wrap:anywhere}#public-data-modes .pd-item p{font-size:.8rem;color:#b2cdd2;line-height:1.5;margin:4px 0 10px;overflow-wrap:anywhere}#public-data-modes a{color:#8ef0dd;overflow-wrap:anywhere}#public-data-modes .pd-label{font-size:.69rem;color:#a0dbc9;text-transform:uppercase}#public-data-modes :focus-visible{outline:3px solid #b5ffe9;outline-offset:3px}@media(max-width:640px){#public-data-modes{padding:14px}#public-data-modes .pd-items{grid-template-columns:1fr}}';document.head.append(style);
+const panel=$("section");panel.id="public-data-modes";panel.setAttribute("aria-label","Data modes and public references");
+panel.append($("h2","Synthetic demonstrations + verified public references"),$("p",CONF.description,"pd-note"));
+const controls=$("div",undefined,"pd-controls"),selector=$("select");selector.setAttribute("aria-label","Public reference source");
+for(const src of CONF.sources){const opt=$("option",src.label);opt.value=src.id;selector.append(opt);}
+const load=$("button","Load public references");load.type="button";
+const clear=$("button","Clear public references");clear.type="button";
+controls.append(selector,load,clear);panel.append(controls);
+const status=$("p","Original synthetic data remains in the project above. Public mode is opt-in; no local files, device information or accounts are used.","pd-state");status.setAttribute("role","status");status.setAttribute("aria-live","polite");panel.append(status);
+const items=$("div",undefined,"pd-items");panel.append(items);
+panel.append($("p","Public requests are read-only. Your browser may share ordinary network information (including IP address) with the chosen provider. Sources are displayed separately from demo findings. No local files are read or uploaded.","pd-note"));
+(document.querySelector("main")||document.body).append(panel);
+const trim=(s,n=330)=>String(s??"").slice(0,n);
+const NIST=[
+["GV","GOVERN","Cybersecurity risk management strategy, expectations, and policy."],
+["ID","IDENTIFY","Understand current cybersecurity risks."],
+["PR","PROTECT","Use safeguards to manage cybersecurity risks."],
+["DE","DETECT","Find and analyze possible cybersecurity attacks and compromises."],
+["RS","RESPOND","Take action regarding a detected cybersecurity incident."],
+["RC","RECOVER","Restore assets and operations affected by a cybersecurity incident."]
+];
+async function getJSON(url){
+ const u=new URL(url);
+ if(u.protocol!=="https:"||!["raw.githubusercontent.com","data.cityofnewyork.us","api.github.com"].includes(u.hostname))throw Error("Unapproved public domain");
+ const ctrl=new AbortController(),timeout=setTimeout(()=>ctrl.abort(),15000);
+ try{const response=await fetch(u.href,{credentials:"omit",cache:"no-store",referrerPolicy:"no-referrer",signal:ctrl.signal,headers:{"Accept":"application/json"}});
+ if(!response.ok)throw Error("HTTP "+response.status);return await response.json();}
+ finally{clearTimeout(timeout);}
+}
+async function loadSource(src){
+ if(src.type==="nist"){
+ return {rows:NIST.map(([id,name,detail])=>({label:"NIST CSF 2.0 · "+id,title:name,detail,url:"https://csrc.nist.gov/Projects/cybersecurity-framework/filters"})),
+ provenance:"NIST's six CSF 2.0 functions. Curated and static, not a live compliance score.",date:"Reference verified November 2026"};
+ }
+ if(src.type==="kev"){
+ const feed=await getJSON("https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json");
+ if(!Array.isArray(feed.vulnerabilities))throw Error("Unexpected CISA KEV schema");
+ const terms=(src.terms||[]).map(x=>x.toLowerCase());
+ const filtered=feed.vulnerabilities.filter(x=>!terms.length||terms.some(t=>(String(x.vendorProject)+" "+String(x.product)+" "+String(x.vulnerabilityName)).toLowerCase().includes(t)));
+ filtered.sort((a,b)=>String(b.dateAdded||"").localeCompare(String(a.dateAdded||"")));
+ return {rows:filtered.slice(0,24).map(x=>({label:"CISA KEV · "+trim(x.dateAdded,12),title:trim(x.cveID+" · "+x.vendorProject+" · "+x.product,150),detail:trim(x.vulnerabilityName+" · "+x.shortDescription,350),url:"https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve="+encodeURIComponent(x.cveID)})),
+ provenance:"CISA KEV, official GitHub mirror; exploitable vulnerability intelligence, NOT a scan of any asset.",date:trim(feed.dateReleased||feed.catalogVersion||"not provided",60)};
+ }
+ if(src.type==="nyc"){
+ const url=new URL("https://data.cityofnewyork.us/resource/erm2-nwe9.json");
+ url.searchParams.set("$select","created_date,complaint_type,borough,status");
+ url.searchParams.set("$order","created_date DESC");url.searchParams.set("$limit","24");
+ const data=await getJSON(url.href);if(!Array.isArray(data))throw Error("Unexpected NYC dataset schema");
+ return {rows:data.map(x=>({label:"NYC 311 · "+trim(x.created_date,10),title:trim(x.complaint_type||"Not specified",120),detail:trim((x.borough||"Borough not specified")+" · "+(x.status||"Status not specified"),220),url:"https://data.cityofnewyork.us/d/erm2-nwe9"})),
+ provenance:"NYC Open Data. Only date, issue category, borough, status requested. No addresses or caller data.",date:new Date().toISOString()};
+ }
+ if(src.type==="releases"){
+ const repo=src.repo==="PowerShell"?"PowerShell/PowerShell":"Genymobile/scrcpy";
+ const data=await getJSON("https://api.github.com/repos/"+repo+"/releases?per_page=12");
+ if(!Array.isArray(data))throw Error("Unexpected GitHub release format");
+ return {rows:data.filter(x=>!x.draft).slice(0,12).map(x=>({label:"Release · "+trim(x.published_at,10),title:trim(x.tag_name||x.name,120),detail:trim(x.name,180),url:x.html_url})),
+ provenance:"Public "+repo+" releases. Not a scan of installed software or an Android device.",date:new Date().toISOString()};
+ }
+ if(src.type==="githubRepos"){
+ const data=await getJSON("https://api.github.com/users/mvahora2023/repos?per_page=100&type=public");
+ if(!Array.isArray(data))throw Error("Unexpected GitHub response");
+ return {rows:data.filter(x=>x.private===false&&x.owner?.login==="mvahora2023").map(x=>({label:"Public repository · "+trim(x.updated_at,10),title:trim(x.name,120),detail:trim((x.description||"No description")+" · "+(x.language||"No primary language"),250),url:x.html_url})),
+ provenance:"GitHub public metadata API. No private repository queries.",date:new Date().toISOString()};
+ }
+ throw Error("Unknown public source type");
+}
+function draw(data,src){
+ items.replaceChildren();
+ for(const r of data.rows){
+ const card=$("article",undefined,"pd-item"),label=$("span",trim(r.label,100),"pd-label"),heading=$("h3",trim(r.title,180)),detail=$("p",trim(r.detail,400)),link=$("a","Open official source ↗");
+ const url=new URL(r.url);if(url.protocol!=="https:")continue;
+ link.href=url.href;link.target="_blank";link.rel="noopener noreferrer";
+ card.append(label,heading,detail,link);items.append(card);
+ }
+ status.textContent=data.rows.length+" real public reference entries from "+src.label+". "+data.provenance+" · Source date: "+data.date+".";
+ if(!data.rows.length)status.textContent+=" No matching records; none invented.";
+}
+load.addEventListener("click",async()=>{
+ const src=CONF.sources.find(x=>x.id===selector.value);if(!src)return;
+ items.replaceChildren();load.disabled=true;status.textContent="Loading "+src.label+"…";
+ try{draw(await loadSource(src),src)}catch(err){status.textContent="Public source unavailable ("+trim(err.message||err,120)+"). Synthetic demonstration is unchanged; no fake real data generated."}finally{load.disabled=false;}
+});
+clear.addEventListener("click",()=>{items.replaceChildren();status.textContent="Public references cleared. Original synthetic demonstration remains above.";});
+})();
+
+</script></body>
+</html>

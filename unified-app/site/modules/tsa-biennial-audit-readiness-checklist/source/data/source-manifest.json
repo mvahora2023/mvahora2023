@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "project": "tsa-biennial-audit-readiness-checklist",
+  "synthetic": {
+    "source": "fictional utility checklist and historical training workbook",
+    "mode": "default"
+  },
+  "public": [
+    {
+      "id": "nist",
+      "label": "NIST CSF 2.0 functions",
+      "type": "nist"
+    },
+    {
+      "id": "kev",
+      "label": "CISA KEV catalog",
+      "type": "kev"
+    }
+  ],
+  "localData": {
+    "enabled": false,
+    "fileImport": false,
+    "privateAccounts": false,
+    "deviceAccess": false
+  },
+  "dataPolicy": "Public source is separate from demo claims, no local device connections; source and retrieval date visible."
+}

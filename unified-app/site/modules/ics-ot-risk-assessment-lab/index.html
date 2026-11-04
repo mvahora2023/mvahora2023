@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>ICS / OT Risk Assessment Lab | Project Explorer</title>
+<meta name="description" content="Interactive, source-grounded portfolio demonstration">
+<style>
+:root{--bg:#08111f;--surface:#111e30;--surface2:#16263b;--border:#273c52;--text:#eef5ff;--muted:#acbcd1;--accent:#64d0c1;--warm:#ffd98c;--red:#ffa09b;--good:#a5e3bd;color-scheme:dark}
+:root[data-theme=light]{--bg:#f1f5f9;--surface:#fff;--surface2:#eaf1f6;--border:#ced9e2;--text:#142638;--muted:#496074;--accent:#087b78;--warm:#9b5800;--red:#a4352e;--good:#137349;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Arial,sans-serif;line-height:1.55}
+a{color:inherit}a:hover{text-decoration-color:var(--accent)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.shell{max-width:1280px;margin:0 auto;padding:0 24px}
+.topbar{border-bottom:1px solid var(--border);background:var(--surface)}
+.topbar-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:62px}
+.brand{font-size:.82rem;font-weight:760;letter-spacing:.07em;text-transform:uppercase}
+.brand b{color:var(--accent)}
+.toplinks{display:flex;align-items:center;gap:18px;font-size:.85rem;color:var(--muted)}
+.toplinks a{text-decoration:none}
+.hero{padding:48px 0 28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:start}
+.eyebrow{text-transform:uppercase;letter-spacing:.17em;font-weight:800;font-size:.71rem;color:var(--accent)}
+h1{font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.1;letter-spacing:-.05em;margin:13px 0 14px;max-width:860px}
+.lead{font-size:1.06rem;color:var(--muted);max-width:770px;margin:0}
+.note{border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:14px 18px;max-width:360px;color:var(--muted);font-size:.83rem}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:21px 0 0}
+.btn{border:1px solid var(--border);background:var(--surface);padding:10px 14px;border-radius:9px;color:var(--text);font-weight:680}
+.btn.primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.panel{border:1px solid var(--border);background:var(--surface);border-radius:17px;padding:22px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:8px 0 25px}
+.metric{padding:21px 18px;min-height:128px}
+.metric .value{font-size:clamp(1.55rem,3vw,2.15rem);font-weight:790;letter-spacing:-.06em;line-height:1.2;font-variant-numeric:tabular-nums}
+.metric .label{text-transform:uppercase;letter-spacing:.09em;font-size:.69rem;font-weight:760;color:var(--muted);margin-top:9px}
+.metric .hint{color:var(--muted);font-size:.78rem;margin-top:3px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:17px;align-items:start;margin-bottom:40px}
+.section-hd{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+h2{font-size:1.14rem;letter-spacing:-.02em;margin:0}
+.description{color:var(--muted);font-size:.87rem;margin:7px 0 0}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px}
+.controls input,.controls select{border:1px solid var(--border);background:var(--surface2);color:var(--text);padding:10px 12px;border-radius:9px;min-width:0}
+.controls input{flex:1 1 230px}
+.controls select{flex:1 1 150px;max-width:230px}
+.results{display:grid;gap:9px;max-height:660px;overflow-y:auto;padding-right:3px}
+.item{border:1px solid var(--border);background:var(--surface2);border-radius:11px;padding:14px 16px}
+.itemtop{display:flex;align-items:flex-start;gap:10px;justify-content:space-between}
+.item h3{font-size:.93rem;margin:0 0 3px;letter-spacing:-.01em}
+.item p{color:var(--muted);font-size:.83rem;margin:8px 0;line-height:1.5;white-space:pre-wrap}
+.meta{color:var(--muted);font-size:.75rem}
+.pill{display:inline-block;border:1px solid var(--border);padding:3px 8px;font-size:.73rem;border-radius:999px;white-space:nowrap;color:var(--accent)}
+.item .source{font-size:.8rem;color:var(--accent);font-weight:650;text-decoration:none}
+.item .source:hover{text-decoration:underline}
+.item label{display:flex;gap:7px;align-items:center;font-size:.76rem;font-weight:600;color:var(--muted)}
+.item input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+.side{display:grid;gap:17px}
+.barline{display:grid;grid-template-columns:minmax(0,110px) 1fr 30px;gap:9px;align-items:center;margin:13px 0;font-size:.76rem}
+.barline span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.track{height:9px;background:var(--surface2);border-radius:9px;overflow:hidden}
+.fill{height:100%;background:var(--accent);border-radius:9px}
+ul{padding-left:18px;margin:10px 0 0}
+li{margin:9px 0;font-size:.84rem;color:var(--muted)}
+.small{font-size:.77rem;color:var(--muted)}
+.footer{border-top:1px solid var(--border);padding:20px 0 42px;font-size:.78rem;color:var(--muted)}
+.stats-progress{font-size:.81rem;margin-bottom:14px;color:var(--muted)}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.side{grid-template-columns:repeat(2,minmax(0,1fr))}.note{max-width:100%}}
+@media(max-width:640px){.shell{padding:0 14px}.hero{padding:30px 0 18px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.side{grid-template-columns:1fr}.panel{padding:16px}.toplinks{gap:9px}.itemtop{flex-wrap:wrap}}
+</style></head><body>
+<header class="topbar"><div class="shell topbar-inner"><div class="brand">MAHMADARSH VAHORA <b>/ PROJECT LAB</b></div><nav class="toplinks" aria-label="External links"><a id="repoLinkTop" rel="noopener noreferrer">GitHub source ↗</a><a href="https://github.com/mvahora2023" rel="noopener noreferrer">Portfolio ↗</a></nav></div></header>
+<main class="shell">
+<section class="hero"><div><span class="eyebrow" id="eyebrow"></span><h1 id="projectTitle"></h1><p class="lead" id="subtitle"></p><div class="actions"><button class="btn primary" id="exportBtn">Export filtered data (CSV)</button><button class="btn" id="themeBtn">Toggle theme</button></div></div><aside class="note"><strong id="scopeTitle">Scope &amp; limitations</strong><p id="scopeBody"></p></aside></section>
+<section class="metrics" id="metrics" aria-label="Project metrics"></section>
+<div class="layout">
+<section class="panel"><div class="section-hd"><div><h2 id="explorerTitle">Evidence explorer</h2><p class="description" id="explorerHint">Inspect the source-grounded project entries.</p></div><span id="visibleCount" class="small" role="status" aria-live="polite"></span></div><div id="progress" class="stats-progress" hidden></div>
+<div class="controls"><label class="small" for="q">Search</label><input id="q" type="search" placeholder="Search records, details and categories…" aria-label="Search records"><select id="group" aria-label="Filter by category"><option value="">All categories</option></select><select id="state" aria-label="Filter by state"><option value="">All states</option></select></div>
+<div class="results" id="results"></div></section>
+<div class="side">
+<section class="panel"><h2>Distribution</h2><p class="description" id="distributionHint">Groups in this source snapshot</p><div id="bars" role="img" aria-label="Category distribution"></div></section>
+<section class="panel"><h2>What to know</h2><ul id="insights"></ul></section>
+<section class="panel"><h2>Source transparency</h2><p class="small">This page is a static, locally runnable representation of repository artifacts, created for demonstration. It does not connect to production services, measure external systems or establish regulatory compliance.</p><p class="small" id="snapshotDate"></p><a class="small" id="repoLinkBottom" rel="noopener noreferrer">Inspect underlying repository ↗</a></section>
+</div></div>
+</main>
+<footer class="footer"><div class="shell">Independent technical portfolio by Mahmadarsh Vahora · Sample outputs and fictional scenarios are labeled · No secrets, sign-in, or tracking</div></footer>
+<script>
+'use strict';
+const PROJECT = {"slug":"ics-ot-risk-assessment-lab","kind":"ICS/OT risk simulation","title":"ICS / OT Risk Assessment Lab","repo":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab","date":"2026-11-03","description":"Explore the simulated industrial-control network inventory by Purdue zone, criticality and device type.","scope":"Every asset, address and firmware description is fictional or simulated. This viewer does not scan, address or access industrial equipment.","scopeTitle":"Lab-only scenario","explorerTitle":"Simulated asset inventory","explorerHint":"Source: docs/asset-inventory.md. No real operational technology is queried.","metrics":[{"label":"Lab inventory items","value":14,"hint":"Includes assessment tooling"},{"label":"High criticality","value":7,"hint":"As labeled in mock inventory"},{"label":"Device types","value":12,"hint":"Fictional categories"},{"label":"Purdue zones","value":7,"hint":"Labeled levels"}],"rows":[{"id":"AST-001","title":"CS-ALPHA-PLC-01","group":"Level 1","state":"High","detail":"PLC · GRFICS Simulated PLC Firmware v1.2\nControls simulated compressor discharge pressure loop; Modbus-TCP, no authentication","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-002","title":"CS-ALPHA-PLC-02","group":"Level 1","state":"High","detail":"PLC · GRFICS Simulated PLC Firmware v1.2\nBackup/secondary control loop for redundant valve actuation","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-003","title":"CS-ALPHA-HMI-01","group":"Level 2","state":"High","detail":"HMI · Windows 10 Enterprise (simulated, unpatched build)\nPrimary operator dashboard; direct Modbus-TCP session to both PLCs","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-004","title":"CS-ALPHA-HIST-01","group":"Level 3","state":"Medium","detail":"Historian · Simulated lightweight SQL data logger\nStores 90 days of rolling process tag history","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-005","title":"CS-ALPHA-EWS-01","group":"Level 2","state":"High","detail":"Engineering Workstation · Windows 10 Enterprise (simulated)\nUsed for PLC logic programming; highest-privilege access point in environment","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-006","title":"CS-ALPHA-FW-DMZ","group":"Level 3.5","state":"High","detail":"Firewall (DMZ boundary) · Simulated stateful firewall appliance\nSole enforced boundary between Level 4 (Enterprise) and OT network","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-007","title":"CS-ALPHA-SW-OT01","group":"Level 2/1","state":"Medium","detail":"OT Network Switch · Simulated unmanaged switch\nNo VLAN segmentation configured between Level 1 and Level 2 devices","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-008","title":"CS-ALPHA-RTU-01","group":"Level 1","state":"Medium","detail":"RTU · GRFICS Simulated RTU v1.0\nReports field sensor data (tank level, flow rate) to Historian","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-009","title":"CS-ALPHA-RTU-02","group":"Level 1","state":"Medium","detail":"RTU · GRFICS Simulated RTU v1.0\nReports pressure/temperature telemetry from secondary process line","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-010","title":"CS-ALPHA-OPC-01","group":"Level 2/3","state":"Medium","detail":"OPC Server · Simulated OPC-UA gateway\nBridges Historian and third-party analytics tooling to OT tag data","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-011","title":"CS-ALPHA-ATK-KALI","group":"Level 4 (external)","state":"N/A (Assessment Tooling)","detail":"Attacker/Assessment Platform · Kali Linux 2024.x\nUsed exclusively for controlled assessment activity, not a production asset","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-012","title":"CS-ALPHA-JMP-01","group":"Level 3.5","state":"High","detail":"Jump Host / Remote Access Gateway · Windows Server 2019 (simulated)\nSole documented remote-access path for vendor and remote engineer connectivity","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-013","title":"CS-ALPHA-VPN-GW","group":"Level 3.5","state":"High","detail":"VPN Gateway · Simulated VPN concentrator\nTerminates all remote OT access sessions; no MFA enforced in current lab build","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"},{"id":"AST-014","title":"CS-ALPHA-PRT-01","group":"Level 2","state":"Low","detail":"Network Printer (OT segment) · Embedded firmware, unknown patch level\nLegacy device retained on OT VLAN for shift-log printing; frequently overlooked in inventories","source":"https://github.com/mvahora2023/ics-ot-risk-assessment-lab/blob/master/docs/asset-inventory.md"}],"insights":["Purdue levels and boundaries help explain why enterprise-to-OT access paths require careful review.","The asset inventory is a modeled exercise and should not be used as a live network map.","Use the risk assessment and evidence files to demonstrate reporting decisions, not to claim a production penetration test."],"mode":"browse"};
+const $=s=>document.querySelector(s);
+document.title=PROJECT.title+' | Portfolio dashboard';
+const SAFEURL=/^https:\/\/github\.com\/mvahora2023\//;
+function safeUrl(u){return typeof u==='string'&&SAFEURL.test(u)?u:PROJECT.repo}
+for(const id of ['#repoLinkTop','#repoLinkBottom']){$(id).href=PROJECT.repo;}
+$('#eyebrow').textContent=PROJECT.kind+' / interactive case study';
+$('#projectTitle').textContent=PROJECT.title;
+$('#subtitle').textContent=PROJECT.description;
+$('#scopeTitle').textContent=PROJECT.scopeTitle||'Read before using';
+$('#scopeBody').textContent=PROJECT.scope;
+$('#explorerTitle').textContent=PROJECT.explorerTitle||'Record explorer';
+$('#explorerHint').textContent=PROJECT.explorerHint||'Browse original sample artifacts and references.';
+$('#distributionHint').textContent=PROJECT.chartHint||'Number of entries by category';
+$('#snapshotDate').textContent='Source snapshot: '+PROJECT.date+'. Static export. See repository for later changes.';
+const metrics=$('#metrics');
+for(const x of PROJECT.metrics){
+ const card=document.createElement('article');card.className='panel metric';
+ const value=document.createElement('div');value.className='value';value.textContent=String(x.value);
+ const label=document.createElement('div');label.className='label';label.textContent=x.label;
+ const hint=document.createElement('div');hint.className='hint';hint.textContent=x.hint||'';
+ card.append(value,label,hint);metrics.append(card);
+}
+for(const s of PROJECT.insights){const li=document.createElement('li');li.textContent=s;$('#insights').append(li);}
+const rows=PROJECT.rows;
+const categories=[...new Set(rows.map(r=>r.group))].sort();
+const states=[...new Set(rows.map(r=>r.state))].sort();
+for(const g of categories){const o=document.createElement('option');o.value=g;o.textContent=g;$('#group').append(o);}
+for(const s of states){const o=document.createElement('option');o.value=s;o.textContent=s;$('#state').append(o);}
+const checkable=PROJECT.mode==='checklist';
+const checkKey='portfolio-checks-v2:'+PROJECT.slug;
+let checked=new Set();
+if(checkable){try{const got=JSON.parse(localStorage.getItem(checkKey)||'[]');if(Array.isArray(got))checked=new Set(got.filter(x=>typeof x==='string'));}catch{}$('#progress').hidden=false;}
+function persist(){try{localStorage.setItem(checkKey,JSON.stringify([...checked]));}catch{}}
+function cardFor(r){
+ const item=document.createElement('article');item.className='item';
+ const top=document.createElement('div');top.className='itemtop';
+ const left=document.createElement('div');const name=document.createElement('h3');name.textContent=r.title;
+ const meta=document.createElement('div');meta.className='meta';meta.textContent=(r.id?String(r.id)+' · ':'')+r.group;
+ left.append(name,meta);
+ const pill=document.createElement('span');pill.className='pill';pill.textContent=r.state;
+ top.append(left,pill);item.append(top);
+ if(r.detail){const p=document.createElement('p');p.textContent=r.detail;item.append(p);}
+ const bottom=document.createElement('div');bottom.className='itemtop';
+ if(checkable){
+   const label=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=checked.has(String(r.id));
+   cb.addEventListener('change',()=>{if(cb.checked)checked.add(String(r.id));else checked.delete(String(r.id));persist();updateProgress();});
+   const tx=document.createElement('span');tx.textContent='Mark reviewed (local only)';label.append(cb,tx);bottom.append(label);
+ }
+ if(r.source){const a=document.createElement('a');a.className='source';a.href=safeUrl(r.source);a.target='_blank';a.rel='noopener noreferrer';a.textContent='View source ↗';bottom.append(a);}
+ item.append(bottom);return item;
+}
+function updateProgress(){if(!checkable)return;$('#progress').textContent='Your local review progress: '+rows.filter(x=>checked.has(String(x.id))).length+' / '+rows.length+'. This is not a compliance assessment.';}
+function filtered(){
+ const q=$('#q').value.toLowerCase().trim(),g=$('#group').value,s=$('#state').value;
+ return rows.filter(r=>(!g||r.group===g)&&(!s||r.state===s)&&(!q||[r.id,r.title,r.detail,r.group,r.state].join(' ').toLowerCase().includes(q)));
+}
+function paint(){
+ const cur=filtered();const target=$('#results');target.replaceChildren();
+ for(const r of cur)target.append(cardFor(r));
+ $('#visibleCount').textContent=cur.length+' / '+rows.length+' entries';
+ if(!cur.length){const p=document.createElement('p');p.className='small';p.textContent='No records match those filters.';target.append(p);}
+}
+function paintBars(){
+ const target=$('#bars');const counts=categories.map(g=>({g,n:rows.filter(r=>r.group===g).length})).sort((a,b)=>b.n-a.n);
+ const max=Math.max(1,...counts.map(x=>x.n));target.replaceChildren();
+ for(const x of counts.slice(0,12)){
+ const line=document.createElement('div');line.className='barline';
+ const lab=document.createElement('span');lab.textContent=x.g;lab.title=x.g;
+ const track=document.createElement('div');track.className='track';
+ const fill=document.createElement('div');fill.className='fill';fill.style.width=Math.round(100*x.n/max)+'%';track.append(fill);
+ const num=document.createElement('span');num.textContent=x.n;num.style.textAlign='right';
+ line.append(lab,track,num);target.append(line);}
+}
+for(const id of ['#q','#group','#state'])$(id).addEventListener('input',paint);
+$('#themeBtn').addEventListener('click',()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light';});
+$('#exportBtn').addEventListener('click',()=>{
+ const values=[['ID','Title','Category','State','Detail','Source'],...filtered().map(r=>[r.id||'',r.title,r.group,r.state,r.detail||'',r.source||''])];
+ const esc=x=>{let z=String(x??'');if(/^[\s]*[=+\-@]/.test(z))z="'"+z;return '"'+z.replace(/"/g,'""')+'"';};
+ const csv='\uFEFF'+values.map(row=>row.map(esc).join(',')).join('\r\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+ const a=document.createElement('a');a.href=url;a.download=PROJECT.slug+'-filtered-demo.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+paintBars();paint();updateProgress();
+</script><script>
+/* Public and synthetic data modes. Opt-in public reads only. No local imports. */
+(()=>{"use strict";
+const CONF={"description":"Simulated industrial assets above. Public CISA KEV entries for selected industrial vendors below; these are NOT findings on any simulated or real asset.","sources":[{"id":"ics-kev","label":"CISA KEV selected industrial vendors","type":"kev","terms":["siemens","schneider","rockwell","mitsubishi","advantech"]},{"id":"nist","label":"NIST CSF 2.0 functions","type":"nist"}],"synthetic":"simulated SCADA asset inventory and risk scenarios"};
+const $=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=String(text);if(cls)e.className=cls;return e;};
+const style=$("style");style.textContent='#public-data-modes{max-width:1150px;margin:34px auto;padding:22px;border:1px solid #487e7d;background:#14303d;color:#e7f9f7;border-radius:15px;font-family:inherit}#public-data-modes h2{color:#fff;margin:0 0 9px;font-size:1.3rem}#public-data-modes .pd-note,#public-data-modes .pd-state{font-size:.86rem;color:#c5dfdc;line-height:1.6}#public-data-modes .pd-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}#public-data-modes button,#public-data-modes select{font:inherit;border:1px solid #618b88;background:#193c48;color:#fff;padding:10px 12px;border-radius:9px;cursor:pointer}#public-data-modes button:disabled{opacity:.5}#public-data-modes .pd-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}#public-data-modes .pd-item{background:#0e2533;border:1px solid #40686a;border-radius:11px;padding:12px;min-width:0}#public-data-modes .pd-item h3{color:#eafff9;font-size:.93rem;margin:3px 0;overflow-wrap:anywhere}#public-data-modes .pd-item p{font-size:.8rem;color:#b2cdd2;line-height:1.5;margin:4px 0 10px;overflow-wrap:anywhere}#public-data-modes a{color:#8ef0dd;overflow-wrap:anywhere}#public-data-modes .pd-label{font-size:.69rem;color:#a0dbc9;text-transform:uppercase}#public-data-modes :focus-visible{outline:3px solid #b5ffe9;outline-offset:3px}@media(max-width:640px){#public-data-modes{padding:14px}#public-data-modes .pd-items{grid-template-columns:1fr}}';document.head.append(style);
+const panel=$("section");panel.id="public-data-modes";panel.setAttribute("aria-label","Data modes and public references");
+panel.append($("h2","Synthetic demonstrations + verified public references"),$("p",CONF.description,"pd-note"));
+const controls=$("div",undefined,"pd-controls"),selector=$("select");selector.setAttribute("aria-label","Public reference source");
+for(const src of CONF.sources){const opt=$("option",src.label);opt.value=src.id;selector.append(opt);}
+const load=$("button","Load public references");load.type="button";
+const clear=$("button","Clear public references");clear.type="button";
+controls.append(selector,load,clear);panel.append(controls);
+const status=$("p","Original synthetic data remains in the project above. Public mode is opt-in; no local files, device information or accounts are used.","pd-state");status.setAttribute("role","status");status.setAttribute("aria-live","polite");panel.append(status);
+const items=$("div",undefined,"pd-items");panel.append(items);
+panel.append($("p","Public requests are read-only. Your browser may share ordinary network information (including IP address) with the chosen provider. Sources are displayed separately from demo findings. No local files are read or uploaded.","pd-note"));
+(document.querySelector("main")||document.body).append(panel);
+const trim=(s,n=330)=>String(s??"").slice(0,n);
+const NIST=[
+["GV","GOVERN","Cybersecurity risk management strategy, expectations, and policy."],
+["ID","IDENTIFY","Understand current cybersecurity risks."],
+["PR","PROTECT","Use safeguards to manage cybersecurity risks."],
+["DE","DETECT","Find and analyze possible cybersecurity attacks and compromises."],
+["RS","RESPOND","Take action regarding a detected cybersecurity incident."],
+["RC","RECOVER","Restore assets and operations affected by a cybersecurity incident."]
+];
+async function getJSON(url){
+ const u=new URL(url);
+ if(u.protocol!=="https:"||!["raw.githubusercontent.com","data.cityofnewyork.us","api.github.com"].includes(u.hostname))throw Error("Unapproved public domain");
+ const ctrl=new AbortController(),timeout=setTimeout(()=>ctrl.abort(),15000);
+ try{const response=await fetch(u.href,{credentials:"omit",cache:"no-store",referrerPolicy:"no-referrer",signal:ctrl.signal,headers:{"Accept":"application/json"}});
+ if(!response.ok)throw Error("HTTP "+response.status);return await response.json();}
+ finally{clearTimeout(timeout);}
+}
+async function loadSource(src){
+ if(src.type==="nist"){
+ return {rows:NIST.map(([id,name,detail])=>({label:"NIST CSF 2.0 · "+id,title:name,detail,url:"https://csrc.nist.gov/Projects/cybersecurity-framework/filters"})),
+ provenance:"NIST's six CSF 2.0 functions. Curated and static, not a live compliance score.",date:"Reference verified November 2026"};
+ }
+ if(src.type==="kev"){
+ const feed=await getJSON("https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json");
+ if(!Array.isArray(feed.vulnerabilities))throw Error("Unexpected CISA KEV schema");
+ const terms=(src.terms||[]).map(x=>x.toLowerCase());
+ const filtered=feed.vulnerabilities.filter(x=>!terms.length||terms.some(t=>(String(x.vendorProject)+" "+String(x.product)+" "+String(x.vulnerabilityName)).toLowerCase().includes(t)));
+ filtered.sort((a,b)=>String(b.dateAdded||"").localeCompare(String(a.dateAdded||"")));
+ return {rows:filtered.slice(0,24).map(x=>({label:"CISA KEV · "+trim(x.dateAdded,12),title:trim(x.cveID+" · "+x.vendorProject+" · "+x.product,150),detail:trim(x.vulnerabilityName+" · "+x.shortDescription,350),url:"https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve="+encodeURIComponent(x.cveID)})),
+ provenance:"CISA KEV, official GitHub mirror; exploitable vulnerability intelligence, NOT a scan of any asset.",date:trim(feed.dateReleased||feed.catalogVersion||"not provided",60)};
+ }
+ if(src.type==="nyc"){
+ const url=new URL("https://data.cityofnewyork.us/resource/erm2-nwe9.json");
+ url.searchParams.set("$select","created_date,complaint_type,borough,status");
+ url.searchParams.set("$order","created_date DESC");url.searchParams.set("$limit","24");
+ const data=await getJSON(url.href);if(!Array.isArray(data))throw Error("Unexpected NYC dataset schema");
+ return {rows:data.map(x=>({label:"NYC 311 · "+trim(x.created_date,10),title:trim(x.complaint_type||"Not specified",120),detail:trim((x.borough||"Borough not specified")+" · "+(x.status||"Status not specified"),220),url:"https://data.cityofnewyork.us/d/erm2-nwe9"})),
+ provenance:"NYC Open Data. Only date, issue category, borough, status requested. No addresses or caller data.",date:new Date().toISOString()};
+ }
+ if(src.type==="releases"){
+ const repo=src.repo==="PowerShell"?"PowerShell/PowerShell":"Genymobile/scrcpy";
+ const data=await getJSON("https://api.github.com/repos/"+repo+"/releases?per_page=12");
+ if(!Array.isArray(data))throw Error("Unexpected GitHub release format");
+ return {rows:data.filter(x=>!x.draft).slice(0,12).map(x=>({label:"Release · "+trim(x.published_at,10),title:trim(x.tag_name||x.name,120),detail:trim(x.name,180),url:x.html_url})),
+ provenance:"Public "+repo+" releases. Not a scan of installed software or an Android device.",date:new Date().toISOString()};
+ }
+ if(src.type==="githubRepos"){
+ const data=await getJSON("https://api.github.com/users/mvahora2023/repos?per_page=100&type=public");
+ if(!Array.isArray(data))throw Error("Unexpected GitHub response");
+ return {rows:data.filter(x=>x.private===false&&x.owner?.login==="mvahora2023").map(x=>({label:"Public repository · "+trim(x.updated_at,10),title:trim(x.name,120),detail:trim((x.description||"No description")+" · "+(x.language||"No primary language"),250),url:x.html_url})),
+ provenance:"GitHub public metadata API. No private repository queries.",date:new Date().toISOString()};
+ }
+ throw Error("Unknown public source type");
+}
+function draw(data,src){
+ items.replaceChildren();
+ for(const r of data.rows){
+ const card=$("article",undefined,"pd-item"),label=$("span",trim(r.label,100),"pd-label"),heading=$("h3",trim(r.title,180)),detail=$("p",trim(r.detail,400)),link=$("a","Open official source ↗");
+ const url=new URL(r.url);if(url.protocol!=="https:")continue;
+ link.href=url.href;link.target="_blank";link.rel="noopener noreferrer";
+ card.append(label,heading,detail,link);items.append(card);
+ }
+ status.textContent=data.rows.length+" real public reference entries from "+src.label+". "+data.provenance+" · Source date: "+data.date+".";
+ if(!data.rows.length)status.textContent+=" No matching records; none invented.";
+}
+load.addEventListener("click",async()=>{
+ const src=CONF.sources.find(x=>x.id===selector.value);if(!src)return;
+ items.replaceChildren();load.disabled=true;status.textContent="Loading "+src.label+"…";
+ try{draw(await loadSource(src),src)}catch(err){status.textContent="Public source unavailable ("+trim(err.message||err,120)+"). Synthetic demonstration is unchanged; no fake real data generated."}finally{load.disabled=false;}
+});
+clear.addEventListener("click",()=>{items.replaceChildren();status.textContent="Public references cleared. Original synthetic demonstration remains above.";});
+})();
+
+</script></body></html>

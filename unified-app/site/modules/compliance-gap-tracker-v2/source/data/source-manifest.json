@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "project": "compliance-gap-tracker-v2",
+  "synthetic": {
+    "source": "fictional utility compliance requirement and exception records",
+    "mode": "default"
+  },
+  "public": [
+    {
+      "id": "nist",
+      "label": "NIST CSF 2.0 functions",
+      "type": "nist"
+    },
+    {
+      "id": "kev",
+      "label": "CISA KEV exploited vulnerabilities",
+      "type": "kev"
+    }
+  ],
+  "localData": {
+    "enabled": false,
+    "fileImport": false,
+    "privateAccounts": false,
+    "deviceAccess": false
+  },
+  "dataPolicy": "Public data requested explicitly and shown separately; attribution and date shown; no local data collected or private account calls."
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "project": "ics-ot-risk-assessment-lab",
+  "synthetic": {
+    "source": "simulated SCADA asset inventory and risk scenarios",
+    "mode": "default"
+  },
+  "public": [
+    {
+      "id": "ics-kev",
+      "label": "CISA KEV selected industrial vendors",
+      "type": "kev",
+      "terms": [
+        "siemens",
+        "schneider",
+        "rockwell",
+        "mitsubishi",
+        "advantech"
+      ]
+    },
+    {
+      "id": "nist",
+      "label": "NIST CSF 2.0 functions",
+      "type": "nist"
+    }
+  ],
+  "localData": {
+    "enabled": false,
+    "fileImport": false,
+    "privateAccounts": false,
+    "deviceAccess": false
+  },
+  "dataPolicy": "Public source is separate from demo claims, no local device connections; source and retrieval date visible."
+}
