@@ -24,3 +24,12 @@ test('public source settings are read-only and non-local',()=>{
  assert.match(source,/credentials:"omit"/);
  assert.match(source,/raw\.githubusercontent\.com/);
 });
+
+test('synthetic portfolio fixtures never replace the real twelve public cards',()=>{
+ const fixture=JSON.parse(readFileSync(new URL('../data/fixtures/public_repo_ui_fixture.json',import.meta.url),'utf8'));
+ assert.equal(fixture.repositories.length,3);
+ assert.ok(fixture.repositories.every(x=>x.name.startsWith('example-')&&x.url.startsWith('https://example.com/')));
+ const cards=[...html.matchAll(/class="repo-card/g)];
+ assert.equal(cards.length,12);
+ for(const item of fixture.repositories)assert.ok(!html.includes(item.name));
+});
