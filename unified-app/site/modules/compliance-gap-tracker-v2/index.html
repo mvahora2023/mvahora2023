@@ -132,6 +132,14 @@ html[data-unified-embed="1"] section.hero aside.note {
 }
 html[data-unified-embed="1"] section.metrics { margin:10px 0 16px !important; }
 html[data-unified-embed="1"] .layout { margin-top:10px !important; }
+/* Remove inner list and table vertical scrollbars in Unified mode. */
+html[data-unified-embed="1"] .results {
+  max-height:none !important; overflow-y:visible !important;
+}
+html[data-unified-embed="1"] .table-wrap {
+  max-height:none !important; overflow-y:visible !important;
+  overflow-x:auto !important;
+}
 html[data-unified-embed="1"] #public-data-modes {
   max-width:none !important; margin:18px 0 8px !important;
 }
