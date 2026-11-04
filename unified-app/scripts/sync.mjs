@@ -15,6 +15,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { Script } from 'node:vm';
+import { adaptUnifiedCopy } from './embedded-shell.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = path.join(ROOT, 'site');
@@ -66,7 +67,9 @@ async function sync() {
       const checkout=path.join(temp,m.id);
       run('git',['clone','--quiet','--depth','1','--single-branch','--branch',m.branch,'https://github.com/'+m.repo+'.git',checkout]);
       const head=run('git',['-C',checkout,'rev-parse','HEAD']);
-      const html=await readFile(path.join(checkout,m.sourcePath),'utf8');
+      const upstreamHtml=await readFile(path.join(checkout,m.sourcePath),'utf8');
+      verifyWebCopy(upstreamHtml,m);
+      const html=adaptUnifiedCopy(upstreamHtml,m);
       const digest=verifyWebCopy(html,m);
       const output=path.join(SITE,'modules',m.id);
       await mkdir(output,{recursive:true});
@@ -93,7 +96,8 @@ async function sync() {
       entries.push({
         id:m.id,title:m.title,group:m.group,role:m.role,summary:m.summary,
         originalUrl:m.originalUrl,sourcePath:m.sourcePath,branch:m.branch,
-        sourceRevision:revision,sha256:digest,copyPath:m.webCopy,
+        sourceRevision:revision,sourceSha256:hash(upstreamHtml),sha256:digest,copyPath:m.webCopy,
+        presentation:m.kind==='portfolio-index'?'source-only':'compact-unified-v1',
         copiedMetadata:copied,kind:m.kind,
         runtime:m.kind==='portfolio-index'?'public portfolio snapshot':'isolated browser demonstration'
       });
@@ -102,7 +106,7 @@ async function sync() {
     const target=path.join(SITE,'release.json');
     let previous;
     try{previous=JSON.parse(await readFile(target,'utf8'));}catch{}
-    const comparisonFields=e=>[e.id,e.title,e.group,e.role,e.summary,e.originalUrl,e.sourcePath,e.branch,e.sourceRevision,e.sha256,e.copyPath,e.copiedMetadata,e.kind,e.runtime];
+    const comparisonFields=e=>[e.id,e.title,e.group,e.role,e.summary,e.originalUrl,e.sourcePath,e.branch,e.sourceRevision,e.sourceSha256,e.sha256,e.copyPath,e.presentation,e.copiedMetadata,e.kind,e.runtime];
     const comparable=entries.map(comparisonFields);
     const priorComparable=previous?.modules?.map(comparisonFields);
     if(JSON.stringify(comparable)===JSON.stringify(priorComparable)){
