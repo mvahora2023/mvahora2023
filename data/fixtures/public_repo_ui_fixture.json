@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "note": "Synthetic UI test fixtures only. These are not actual GitHub repositories and must never be displayed as real projects.",
+  "repositories": [
+    {
+      "name": "example-windows-tool",
+      "category": "IT & automation",
+      "description": "Fictional safe-operations test entry",
+      "visibility": "public",
+      "url": "https://example.com/tool"
+    },
+    {
+      "name": "example-security-simulator",
+      "category": "Security engineering",
+      "description": "Fictional detection-lab test entry",
+      "visibility": "public",
+      "url": "https://example.com/simulator"
+    },
+    {
+      "name": "example-data-dashboard",
+      "category": "Data & analytics",
+      "description": "Fictional analytics-test entry",
+      "visibility": "public",
+      "url": "https://example.com/dashboard"
+    }
+  ]
+}
