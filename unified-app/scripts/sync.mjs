@@ -102,10 +102,11 @@ async function sync() {
     const target=path.join(SITE,'release.json');
     let previous;
     try{previous=JSON.parse(await readFile(target,'utf8'));}catch{}
-    const comparable=entries.map(e=>[e.id,e.sourceRevision,e.sha256,e.copiedMetadata]);
-    const priorComparable=previous?.modules?.map(e=>[e.id,e.sourceRevision,e.sha256,e.copiedMetadata]);
+    const comparisonFields=e=>[e.id,e.title,e.group,e.role,e.summary,e.originalUrl,e.sourcePath,e.branch,e.sourceRevision,e.sha256,e.copyPath,e.copiedMetadata,e.kind,e.runtime];
+    const comparable=entries.map(comparisonFields);
+    const priorComparable=previous?.modules?.map(comparisonFields);
     if(JSON.stringify(comparable)===JSON.stringify(priorComparable)){
-      console.log('[unchanged] All twelve upstream browser copies match the current release.');
+      console.log('[unchanged] All twelve upstream source files and module display metadata match the current release.');
       return false;
     }
     const release={
