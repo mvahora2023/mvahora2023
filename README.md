@@ -4,7 +4,7 @@
 
 I build practical technical projects: Windows administration tools, interactive dashboards, database designs, integration helpers, and cybersecurity labs. My portfolio combines executable code with documented simulations. I'm interested in software engineering, technology startups, and opportunities to learn from teams building useful products.
 
-📍 Exton, Pennsylvania · [LinkedIn](https://www.linkedin.com/in/mahmadarshvahora/)
+[LinkedIn](https://www.linkedin.com/in/mahmadarshvahora/)
 
 ## Try my interactive project dashboards
 
